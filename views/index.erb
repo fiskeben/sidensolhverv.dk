@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hvor meget er dagen tiltaget?</title>
+    <script src="/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" type="text/css" media="screen" title="Bootstrap" charset="utf-8"/>
+    <style type="text/css">
+          body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+          }
+
+          /* Custom container */
+          .container-narrow {
+            margin: 0 auto;
+            max-width: 700px;
+          }
+          .container-narrow > hr {
+            margin: 30px 0;
+          }
+
+          .jumbotron {
+            margin: 60px 0;
+            text-align: center;
+          }
+          .jumbotron h1 {
+            font-size: 72px;
+            line-height: 1;
+          }
+          
+          .center {
+            text-align: center;
+          }
+        </style>
+  </head>
+  <body>
+    <div class="container-narrow">
+      
+      <div class="jumbotron">
+        <h1>Hvor meget er dagen tiltaget?</h1>
+        <p class="lead">Her kan du se hvor meget dagen er blevet længere siden sidste vintersolhverv. Godt for vinterdepressionen.</p>
+      </div>
+      
+      <hr>
+      
+      <div class="row-fluid">
+        <div class="span8 offset2 main">
+          <% if ok %>
+            <div class="lead center">
+              <p>I <%= place %> er dagen tiltaget med</p>
+              <p><b><%= hours %> timer</b> og <b><%= minutes %> minutter</b></p>
+              <p>siden <%= solstice %>.</p>
+            </div>
+          <% else %>
+            <div class="alert alert-error">
+              <h4>Teknisk uheld</h4>
+              Din position kunne ikke lokaliseres.
+            </div>
+          <% end %>
+        </div>
+      </div>
+      
+      <hr>
+      
+      <div class="footer">
+        <p><b>Hvorfor passer tallene ikke?</b> Beregningen af dagens længde er baseret på <a href="http://herbert.gandraxa.com/length_of_day.xml">denne formel</a> og kan afvige noget fra virkelighedens verden. Cheer up! Det går mod lysere tider!</p>
+        <p><b>Hvorfor kan min position ikke findes?</b> Positionen bestemmes ud fra din IP adresse med <a href="http://freegeoip.net">denne tjeneste</a>. Prøv den, og <a href="mailto:ricco@fiskeben.dk">send mig en mail</a>, hvis den kan finde din lokation.</p>
+        <p>Denne tjeneste er lavet af Ricco Førgaard. Jeg er <a href="http://twitter.com/fiskeben">@fiskeben på Twitter</a>, og jeg har <a href="http://fiskeben.dk">en blog</a>.</p>
+      </div>
+    </div>
+    
+  </body>
+</html>

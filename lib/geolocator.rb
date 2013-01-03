@@ -38,6 +38,8 @@ class Geolocator
       @success = false
     elsif country_code == "RD"
       @success = false
+    elsif latitude.nil?
+      @success = false
     else
       @success = true
     end

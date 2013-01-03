@@ -64,7 +64,13 @@
         <div class="span8 offset2 main">
           <% if ok %>
             <div class="lead center">
-              <p>I <%= place %> er dagen tiltaget med</p>
+              <p>
+                <% if place %>
+                  I <%= place %> er dagen tiltaget med
+                <% else %>
+                  Dagen er tiltaget med
+                <% end %>
+              </p>
               <p><b><%= hours %> timer</b> og <b><%= minutes %> minutter</b></p>
               <p>siden <%= solstice %>.</p>
             </div>
@@ -80,8 +86,12 @@
       <hr>
       
       <div class="footer">
-        <p><b>Hvorfor passer tallene ikke?</b> Beregningen af dagens længde er baseret på <a href="http://herbert.gandraxa.com/length_of_day.xml">denne formel</a> og kan afvige noget fra virkelighedens verden. Cheer up! Det går mod lysere tider!</p>
-        <p><b>Hvorfor kan min position ikke findes?</b> Positionen bestemmes ud fra din IP adresse med <a href="http://freegeoip.net">denne tjeneste</a>. Prøv den, og <a href="mailto:ricco@fiskeben.dk">send mig en mail</a>, hvis den kan finde din lokation.</p>
+        <p><b>Hvorfor passer tallene ikke?</b> Beregningen af dagens længde er baseret på <a href="http://herbert.gandraxa.com/length_of_day.xml">denne formel</a> og kan afvige noget fra virkelighedens verden. Cheer up! Det går mod lysere tider! <a href="http://fiskeben.dk/2013/01/02/nyt-sideprojekt-hvor-meget-er-dagen-tiltaget-siden-vintersolhverv/">Her kan du læse mere om tanken bag sitet</a>.</p>
+        <% if ok %>
+        <p><b>Hvorfor er min position unøjagtig?</b> Din position bestemmes ud fra din IP-adresse med <a href="http://freegeoip.net">freegeoip.net</a>. Alt afhængig af din internetudbyder kan positionen variere fra den central, du er koblet til, til det sted hvor din internettrafik forlader din udbyders net og går over på andres. Dette er der desværre ikke så meget at gøre ved.</p>
+        <% else %>
+        <p><b>Hvorfor kan min position ikke findes?</b> Positionen bestemmes ud fra din IP adresse med <a href="http://freegeoip.net">denne tjeneste</a>. Prøv den, og <a href="mailto:ricco@fiskeben.dk">send mig en mail</a>, hvis den kan finde din lokation men denne side ikke kan.</p>
+        <% end %>
         <p>Denne tjeneste er lavet af Ricco Førgaard. Jeg er <a href="http://twitter.com/fiskeben">@fiskeben på Twitter</a>, og jeg har <a href="http://fiskeben.dk">en blog</a>.</p>
       </div>
     </div>

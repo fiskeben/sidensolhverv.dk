@@ -2,16 +2,32 @@
 <html>
   <head>
     <title>Hvor meget er dagen tiltaget?</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <meta property="og:description" content="Se hvor meget dagen er tiltaget siden sidste vintersolhverv. Det er godt for vinterdepressionen." />
     <meta property="og:image" content="http://sidensolhverv.dk/solhverv.jpg" />
     <meta property="og:title" content="Hvor meget er dagen tiltaget?" />
     <meta property="og:url" content="http://sidensolhverv.dk/" />
+    <script src="/js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" type="text/css" media="screen" title="Bootstrap" charset="utf-8"/>
     <style type="text/css">
           body {
             padding-top: 20px;
             padding-bottom: 40px;
+          }
+          
+          html {
+            height: 100%;
+          }
+          
+          body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+          }
+          
+          #map_canvas {
+            height: 450px;
           }
 
           /* Custom container */
@@ -54,7 +70,7 @@
 
         </script>
   </head>
-  <body>
+  <body onload="initialize();">
     <div class="container-narrow">
       
       <div class="jumbotron">
@@ -63,51 +79,130 @@
       </div>
       
       <hr>
-      
+
       <div class="row-fluid">
-        <div class="span8 offset2 main">
-          <% if ok %>
-            <div class="lead center">
-              <p>
-                <% if place %>
-                  I <%= place %> er dagen tiltaget med
-                <% else %>
-                  Dagen er tiltaget med
-                <% end %>
-              </p>
-              <p><b><%= hours %> timer</b> og <b><%= minutes %> minutter</b></p>
-              <p>siden <%= solstice %>.</p>
-            </div>
-          <% else %>
-            <div class="alert alert-error">
-              <h4>Teknisk uheld</h4>
-              Din position kunne ikke lokaliseres.
+        <div class="span12">
+          
+          <% unless ok %>
+            <div id="alert" class="alert alert-warning">
+              <p>Din position kunne ikke bedømmes og standardplaceringen vises.</p>
             </div>
           <% end %>
+          
+        </div>
+        
+      </div>
+      <div class="row-fluid">
+
+        <div class="span8 offset1 main">
+          <div id="text" class="lead center">
+            <p>
+              <% unless place.nil? %>
+                I <%= place %> er dagen tiltaget med
+              <% else %>
+                Dagen er tiltaget med
+              <% end %>
+            </p>
+            <p><b><%= hours %> timer</b> og <b><%= minutes %> minutter</b></p>
+            <p>siden <%= solstice %>.</p>
+          </div>
+          
+        </div>
+        
+          
+        <div class="social span3 pull-right">
+
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://sidensolhverv.dk" data-text="Se hvor meget dagen er tiltaget" data-via="fiskeben" data-lang="da">Tweet</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>          
+
+          <div class="g-plusone" data-size="small" data-annotation="inline" data-width="200" data-href="http://sidensolhverv.dk"></div>
+
+          <div class="fb-like" data-href="http://sidensolhverv.dk" data-send="false" data-layout="button_count" data-width="200" data-show-faces="false"></div>
         </div>
       </div>
       
       <hr>
       
-      <div class="social center">
-        <div class="fb-like" data-href="http://sidensolhverv.dk" data-send="false" data-layout="button_count" data-width="200" data-show-faces="false"></div>
-        
-        <div class="g-plusone" data-size="small" data-annotation="inline" data-width="200" data-href="http://sidensolhverv.dk"></div>
-        
-        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://sidensolhverv.dk" data-text="Se hvor meget dagen er tiltaget" data-via="fiskeben" data-lang="da">Tweet</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
+      <div class="row-fluid">
+        <div class="span8 offset2">
+          <% if ok and !place.nil? %>
+            <h4>Ikke i <%= place %>?</h4>
+          <% else %>
+            <h4>Et andet sted?</h4>
+          <% end %>
+          <div id="map_canvas"></div>
+        </div>
       </div>
-      <div class="footer">
-        <p><b>Hvorfor passer tallene ikke?</b> Beregningen af dagens længde er baseret på <a href="http://herbert.gandraxa.com/length_of_day.xml">denne formel</a> og kan afvige noget fra virkelighedens verden. Cheer up! Det går mod lysere tider! <a href="http://fiskeben.dk/2013/01/02/nyt-sideprojekt-hvor-meget-er-dagen-tiltaget-siden-vintersolhverv/">Her kan du læse mere om tanken bag sitet</a>.</p>
-        <% if ok %>
-        <p><b>Hvorfor er min position unøjagtig?</b> Din position bestemmes ud fra din IP-adresse med <a href="http://freegeoip.net">freegeoip.net</a>. Alt afhængig af din internetudbyder kan positionen variere fra den central, du er koblet til, til det sted hvor din internettrafik forlader din udbyders net og går over på andres. Dette er der desværre ikke så meget at gøre ved.</p>
-        <% else %>
-        <p><b>Hvorfor kan min position ikke findes?</b> Positionen bestemmes ud fra din IP adresse med <a href="http://freegeoip.net">denne tjeneste</a>. Prøv den, og <a href="mailto:ricco@fiskeben.dk">send mig en mail</a>, hvis den kan finde din lokation men denne side ikke kan.</p>
-        <% end %>
-        <p>Denne tjeneste er lavet af Ricco Førgaard. Jeg er <a href="http://twitter.com/fiskeben">@fiskeben på Twitter</a>, og jeg har <a href="http://fiskeben.dk">en blog</a>.</p>
+      
+      <hr>
+      
+      <div class="row-fluid">
+        <div class="footer span10 offset1">
+          <p><b>Hvorfor passer tallene ikke?</b> Beregningen af dagens længde er baseret på <a href="http://herbert.gandraxa.com/length_of_day.xml">denne formel</a> og kan afvige noget fra virkelighedens verden. Cheer up! Det går mod lysere tider! <a href="http://fiskeben.dk/2013/01/02/nyt-sideprojekt-hvor-meget-er-dagen-tiltaget-siden-vintersolhverv/">Her kan du læse mere om tanken bag sitet</a>.</p>
+          <% if ok %>
+          <p><b>Hvorfor er min position unøjagtig?</b> Din position bestemmes ud fra din IP-adresse med <a href="http://freegeoip.net">freegeoip.net</a>. Alt afhængig af din internetudbyder kan positionen variere fra den central, du er koblet til, til det sted hvor din internettrafik forlader din udbyders net og går over på andres. Dette er der desværre ikke så meget at gøre ved.</p>
+          <% else %>
+          <p><b>Hvorfor kan min position ikke findes?</b> Positionen bestemmes ud fra din IP adresse med <a href="http://freegeoip.net">denne tjeneste</a>. Prøv den, og <a href="mailto:ricco@fiskeben.dk">send mig en mail</a>, hvis den kan finde din lokation men denne side ikke kan.</p>
+          <% end %>
+          <p>Denne tjeneste er lavet af Ricco Førgaard. Jeg er <a href="http://twitter.com/fiskeben">@fiskeben på Twitter</a>, og jeg har <a href="http://fiskeben.dk">en blog</a>.</p>
+        </div>
       </div>
     </div>
+      
+    
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuCy51gG7lFVZBuLsq0nNMauMkdQMqkDc&sensor=true">
+    </script>
+    
+    <script type="text/javascript">
+      var map;
+      var marker;
+      var position = new google.maps.LatLng(<%= latitude %>, <%= longitude %>);
+      
+      function initialize() {
+        var mapOptions = {
+              center: position,
+              zoom: 4,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+        
+        marker = new google.maps.Marker({
+          position: position,
+          map: map
+        });
+       
+        google.maps.event.addListener(map, 'click', function(event) {
+          removeMarker();
+          placeMarker(event.latLng);
+        }); 
+      }
+      
+      function removeMarker() {
+        marker.setMap(null);
+      }
+      
+      function placeMarker(location) {
+        marker = new google.maps.Marker({
+              position: location, 
+              map: map
+          });
+          
+        map.setCenter(location);
+        
+        var payload = { lat: location.lat(), lng: location.lng() };
+        $.ajax({
+          url: "/updatelocation",
+          data: payload,
+          success: function(data) {
+            $("#alert").remove();
+            $("#text").html("<p>Dagen er tiltaget med</p><p><b>" + data.hours + " timer</b> og <b>" + data.minutes + " minutter</b></p><p>siden " + data.solstice + "</p");
+          },
+          error: function() {
+            $("#text").html('<div class="alert alert-error">Dagens længde kunne ikke beregnes for denne position</div>');
+          }
+        });
+      }
+      </script>
     
     <div id="fb-root"></div>
     <script>(function(d, s, id) {

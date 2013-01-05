@@ -16,7 +16,12 @@ class Geolocator
   end
   
   def method_missing(name, *args, &block)
-    @data[name.to_s]
+    value = @data[name.to_s]
+    if value.nil? or value.length == 0
+      nil
+    else
+      value.strip
+    end
   end
   
   private

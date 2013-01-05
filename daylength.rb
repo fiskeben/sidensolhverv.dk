@@ -4,38 +4,46 @@ require 'date'
 require './lib/geolocator'
 require './lib/sincesolstice'
 
+def get_location
+  locator = Geolocator.new request.ip
+  if locator.success?
+    latitude = locator.latitude
+    longitude = locator.longitude
+    ok = true
+  else
+    latitude = 55.5
+    longitude = 9.5
+    ok = false
+  end
+  { :latitude => latitude, :longitude => longitude, :place => locator.city, :ok => ok }
+end
+
+def calculate_solstice(latitude, date)
+  data = {}
+  sincesolstice = SinceSolstice.new latitude, date
+  
+  data[:solstice] = sincesolstice.solstice.strftime "%d.%m %Y"
+  data[:hours] = sincesolstice.hours
+  data[:minutes] = sincesolstice.minutes
+  data[:difference] = sincesolstice.get_difference_since_yesterday
+  data
+end
+
 configure do
   set :public_folder, File.dirname(__FILE__) + '/public'
 end
 
 get '/' do
-  today = Date.today
-  locator = Geolocator.new request.ip
-  locals = { :ok => true }
+  locals = {}
+  date = Date.today
   
-  if locator.success?
-    latitude = locator.latitude
-    longitude = locator.longitude
-    locals[:ok] = true
-  else
-    latitude = 55.5
-    longitude = 9.5
-    locals[:ok] = false
-  end
-  
-  sincesolstice = SinceSolstice.new latitude, today
-  
-  locals[:place] = (!locator.city.nil? and locator.city != "" ) ? locator.city : nil
-  locals[:latitude] = latitude
-  locals[:longitude] = longitude
-  locals[:solstice] = sincesolstice.solstice.strftime "%d.%m %Y"
-  locals[:hours] = sincesolstice.hours
-  locals[:minutes] = sincesolstice.minutes
+  locals = get_location
+  locals.merge!(calculate_solstice(locals[:latitude], date)) if locals[:ok]
   
   erb :index, :locals => locals
 end
 
-get '/updatelocation' do
+post '/api/v1/calculate' do
   today = Date.today
   sincesolstice = SinceSolstice.new params['lat'], today
   
@@ -43,7 +51,8 @@ get '/updatelocation' do
     :place => nil,
     :solstice => sincesolstice.solstice.strftime("%d.%m %Y"),
     :hours => sincesolstice.hours,
-    :minutes => sincesolstice.minutes
+    :minutes => sincesolstice.minutes,
+    :difference => sincesolstice.get_difference_since_yesterday
   }
   
   content_type :json

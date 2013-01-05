@@ -150,6 +150,13 @@
           <% else %>
           <p><b>Hvorfor kan min position ikke findes?</b> Positionen bestemmes ud fra din IP adresse med <a href="http://freegeoip.net">denne tjeneste</a>. Prøv den, og <a href="mailto:ricco@fiskeben.dk">send mig en mail</a>, hvis den kan finde din lokation men denne side ikke kan.</p>
           <% end %>
+          <p><b>Bruges der cookies?</b> Ja til dels. Hver gang du vælger et nyt sted på kortet, bliver den position gemt i
+            en cookie. Kan du ikke acceptere det, bør du forlade siden.</p>
+        </div>
+      </div>
+      
+      <div class="row-fluid">
+        <div class="span12 center">
           <p>Denne tjeneste er lavet af Ricco Førgaard. Jeg er <a href="http://twitter.com/fiskeben">@fiskeben på Twitter</a>, og jeg har <a href="http://fiskeben.dk">en blog</a>.</p>
         </div>
       </div>
@@ -158,6 +165,7 @@
     
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuCy51gG7lFVZBuLsq0nNMauMkdQMqkDc&sensor=true">
     </script>
+    <script src="/js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
     
     <script type="text/javascript">
       var map;
@@ -202,6 +210,8 @@
           data: payload,
           success: function(data) {
             $(".jumbotron").html('<p class="lead">Dagen er tiltaget med</p><h2>' + data.hours + ' timer<small>og</small></h2><h2>' + data.minutes + ' minutter</h2><p class="lead">siden ' + data.solstice + '</p><p>Det er ' + data.difference + ' minutter mere end i går</p>');
+            $.cookie("latitude", payload.lat);
+            $.cookie("longitude", payload.lng);
           },
           error: function() {
             $(".jumbotron").html('<div class="alert alert-error">Dagens længde kunne ikke beregnes for denne position</div>');

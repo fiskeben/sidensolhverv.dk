@@ -1,21 +1,32 @@
 require 'sinatra'
+require 'sinatra/cookies'
 require 'json'
 require 'date'
 require './lib/geolocator'
 require './lib/sincesolstice'
 
 def get_location
-  locator = Geolocator.new request.ip
-  if locator.success?
-    latitude = locator.latitude
-    longitude = locator.longitude
-    ok = true
+  location = {}
+  unless cookies[:latitude].nil?
+    location[:latitude] = cookies[:latitude]
+    location[:longitude] = cookies[:longitude]
+    location[:ok] = true
+    location[:place] = nil
   else
-    latitude = 55.5
-    longitude = 9.5
-    ok = false
+    locator = Geolocator.new request.ip
+    if locator.success?
+      location[:latitude] = locator.latitude
+      location[:longitude] = locator.longitude
+      location[:place] = locator.city
+      location[:ok] = true
+    else
+      location[:latitude] = 55.5
+      location[:longitude] = 9.5
+      location[:ok] = false
+    end
   end
-  { :latitude => latitude, :longitude => longitude, :place => locator.city, :ok => ok }
+  
+  location
 end
 
 def calculate_solstice(latitude, date)
@@ -46,6 +57,8 @@ end
 post '/api/v1/calculate' do
   today = Date.today
   sincesolstice = SinceSolstice.new params['lat'], today
+  
+  cookies[:latitude] = params['lat']
   
   data = {
     :place => nil,

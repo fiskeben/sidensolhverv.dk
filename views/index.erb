@@ -51,6 +51,14 @@
             margin-left: 20px;
           }
           
+          .social {
+            margin: 120px 0;
+          }
+          
+          .social div {
+            margin: 20px 0;
+          }
+          
           .center {
             text-align: center;
           }
@@ -82,34 +90,34 @@
       
       <hr>
       
-      <div class="jumbotron">
-        <% if ok %>
-          <% unless place.nil? %>
-            <p class="lead">I <%= place %> er dagen tiltaget med</p>
-          <% else %>
-            <p class="lead">Dagen er tiltaget med</p>
-          <% end %>
-          <h2><%= hours %> timer<small>og</small></h2>
-          <h2><%= minutes %> minutter</h2>
-          <p class="lead">siden <%= solstice %></p>
-          <small>Det er <%= difference %> minutter <%= (difference < 0) ? "kortere" : "længere" %> end i går.</small>
-        <% else %>
-          <p class="lead">Din position kunne ikke beregnes.
-            Placer en nål på kortet herunder for at se dagens længde for det sted.</p>
-        <% end %>
-      </div>
-      
       <div class="row-fluid">
-        <div class="center span12 pull-right">
+        <div class="jumbotron span8">
+          <% if ok %>
+            <% unless place.nil? %>
+              <p class="lead">I <%= place %> er dagen tiltaget med</p>
+            <% else %>
+              <p class="lead">Dagen er tiltaget med</p>
+            <% end %>
+            <h2><%= hours %> time<%= (hours != 1) ? "r" : "" %><small>og</small></h2>
+            <h2><%= minutes %> minut<%= (minutes != 1) ? "ter" : "" %></h2>
+            <p class="lead">siden <%= solstice %></p>
+            <small>Det er <%= difference %> minut<%= (difference != 1) ? "ter" : "" %> <%= (difference < 0) ? "kortere" : "længere" %> end i går.</small>
+          <% else %>
+            <p class="lead">Din position kunne ikke beregnes.
+              Placer en nål på kortet herunder for at se dagens længde for det sted.</p>
+          <% end %>
+        </div>
+        
+        <div class="span3 pull-right social">
 
           <div class="fb-like" data-href="http://sidensolhverv.dk" data-send="false" data-layout="button_count" data-width="200" data-show-faces="false"></div>
           
           <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://sidensolhverv.dk" data-text="Se hvor meget dagen er tiltaget" data-via="fiskeben" data-lang="da">Tweet</a>
           <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>          
 
-          <div class="g-plusone" data-size="small" data-annotation="inline" data-width="200" data-href="http://sidensolhverv.dk"></div>
+          <div class="g-plusone" data-size="small" data-href="http://sidensolhverv.dk"></div>
 
-        </div>        
+        </div>
       </div>
       
       <hr>
@@ -146,14 +154,31 @@
           <h3>FAQ</h3>
           <p><b>Hvorfor passer tallene ikke?</b> Beregningen af dagens længde er baseret på <a href="http://herbert.gandraxa.com/length_of_day.xml">denne formel</a> og kan afvige noget fra virkelighedens verden. Cheer up! Det går mod lysere tider! </p>
           <% if ok %>
-          <p><b>Hvorfor er min position unøjagtig?</b> Din position bestemmes ud fra din IP-adresse med <a href="http://freegeoip.net">freegeoip.net</a>. Alt afhængig af din internetudbyder kan positionen variere fra den central, du er koblet til, til det sted hvor din internettrafik forlader din udbyders net og går over på andres. Dette er der desværre ikke så meget at gøre ved.</p>
+          <p><b>Hvorfor er min position unøjagtig?</b> Din position bestemmes ud fra din IP-adresse med <a href="http://freegeoip.net">freegeoip.net</a>. Alt afhængig af din internetudbyder kan positionen variere fra den central, du er koblet til, til det sted hvor din internettrafik forlader din udbyders net og går over på andres. Dette er der desværre ikke så meget at gøre ved. Brug kortet til at korrigere med.</p>
           <% else %>
           <p><b>Hvorfor kan min position ikke findes?</b> Positionen bestemmes ud fra din IP adresse med <a href="http://freegeoip.net">denne tjeneste</a>. Prøv den, og <a href="mailto:ricco@fiskeben.dk">send mig en mail</a>, hvis den kan finde din lokation men denne side ikke kan.</p>
           <% end %>
           <p><b>Bruges der cookies?</b> Ja til dels. Hver gang du vælger et nyt sted på kortet, bliver den position gemt i
             en cookie. Kan du ikke acceptere det, bør du forlade siden.</p>
+          <p><b>API?</b> Ja, POST længde- (lat) og breddegrad (lng) som JSON til <code>/api/v1/calculate</code>. Du kan også angive <code>date</code> på formen <code>YYYY-MM-DD</code>, hvis du vide noget om en anden dag end dags dato. Svaret vil indeholde disse felter:</p>
+          <ul>
+            <li><code>date</code><ul>
+              <li><code>interpreted</code> hvad APIet har tolket et evt datoinput som (eller dags dato)</li>
+              <li><code>supplied</code> den dato der blev opgivet (om nogen)</li>
+              </ul></li>
+            <li><code>latlng</code><ul>
+              <li><code>lat</code> længdegrad som blev brugt</li>
+              <li><code>lng</code> breddegrad som blev brugt</li>
+              </ul></li>
+            <li><code>solstice</code> dato for forrige vintersolhverv</li>
+            <li><code>hours</code> antal timer dagen er blevet længere</li>
+            <li><code>minutes</code> antal minutter (i tillæg til timerne)</li>
+            <li><code>difference</code> forskellen fra dagen før</li>
+          </ul>
         </div>
       </div>
+      
+      <hr>
       
       <div class="row-fluid">
         <div class="span12 center">
@@ -209,7 +234,28 @@
           type: 'post',
           data: payload,
           success: function(data) {
-            $(".jumbotron").html('<p class="lead">Dagen er tiltaget med</p><h2>' + data.hours + ' timer<small>og</small></h2><h2>' + data.minutes + ' minutter</h2><p class="lead">siden ' + data.solstice + '</p><p>Det er ' + data.difference + ' minutter mere end i går</p>');
+            var text = '<p class="lead">Dagen er tiltaget med</p><h2>'
+              + data.hours
+              + ' time';
+            if (data.hours != 1) {
+              text += "r";
+            }
+            text += '<small>og</small></h2><h2>'
+              + data.minutes
+              + ' minut';
+            if (data.minutes != 1) {
+              text += 'ter';
+            }
+            text += '</h2><p class="lead">siden '
+              + data.solstice
+              + '</p><p>Det er '
+              + data.difference
+              + ' minut';
+            if (data.difference != 1) {
+              text += 'ter';
+            }
+            text += 'ter mere end i går</p>';
+            $(".jumbotron").html(text);
             $.cookie("latitude", payload.lat);
             $.cookie("longitude", payload.lng);
           },

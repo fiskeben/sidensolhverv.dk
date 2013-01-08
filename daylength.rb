@@ -55,13 +55,22 @@ get '/' do
 end
 
 post '/api/v1/calculate' do
-  today = Date.today
-  sincesolstice = SinceSolstice.new params['lat'], today
-  
-  cookies[:latitude] = params['lat']
+  if params['date']
+    date = Date.parse params['date']
+  else
+    date = Date.today
+  end
+  sincesolstice = SinceSolstice.new params['lat'], date
   
   data = {
-    :place => nil,
+    :date => {
+      :supplied => params['date'],
+      :interpreted => date.strftime("%F")
+    },
+    :latlng => {
+      :lat => params['lat'],
+      :lng => params['lng']
+    },
     :solstice => sincesolstice.solstice.strftime("%d.%m %Y"),
     :hours => sincesolstice.hours,
     :minutes => sincesolstice.minutes,

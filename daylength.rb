@@ -55,6 +55,18 @@ get '/' do
 end
 
 post '/api/v1/calculate' do
+  logger = Logger.new(STDOUT)
+  logger.info "API request from #{request.ip}: #{params}"
+  
+  content_type :json
+  
+  if params['lat'].nil? or params['lng'].nil?
+    logger.warn "Missing coordinate(s)"
+    return { :error => "Please specify latitude and longitude"}.to_json
+  end
+  
+  begin
+    
   if params['date']
     date = Date.parse params['date']
   else
@@ -77,6 +89,10 @@ post '/api/v1/calculate' do
     :difference => sincesolstice.get_difference_since_yesterday
   }
   
-  content_type :json
+  rescue => e
+    logger.error "API error: #{e}"
+    data = { :error => "An error occurred" }
+  end
+  
   data.to_json
 end

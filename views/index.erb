@@ -162,15 +162,15 @@
           <% end %>
           <p><b>Bruges der cookies?</b> Ja til dels. Hver gang du vælger et nyt sted på kortet, bliver den position gemt i
             en cookie. Kan du ikke acceptere det, bør du forlade siden.</p>
-          <p><b>API?</b> Ja, POST længde- (lat) og breddegrad (lng) som JSON til <code>/api/v1/calculate</code>. Du kan også angive <code>date</code> på formen <code>YYYY-MM-DD</code>, hvis du vide noget om en anden dag end dags dato. Svaret vil indeholde disse felter:</p>
+          <p><b>API?</b> Ja, POST længde- (lng) og breddegrad (lat) som JSON til <code>/api/v1/calculate</code>. Du kan også angive <code>date</code> på formen <code>YYYY-MM-DD</code>, hvis du vide noget om en anden dag end dags dato. Svaret vil indeholde disse felter:</p>
           <ul>
             <li><code>date</code><ul>
               <li><code>interpreted</code> hvad APIet har tolket et evt datoinput som (eller dags dato)</li>
               <li><code>supplied</code> den dato der blev opgivet (om nogen)</li>
               </ul></li>
             <li><code>latlng</code><ul>
-              <li><code>lat</code> længdegrad som blev brugt</li>
-              <li><code>lng</code> breddegrad som blev brugt</li>
+              <li><code>lat</code> breddegrad som blev brugt</li>
+              <li><code>lng</code> længdegrad som blev brugt</li>
               </ul></li>
             <li><code>solstice</code> dato for forrige vintersolhverv</li>
             <li><code>hours</code> antal timer dagen er blevet længere</li>

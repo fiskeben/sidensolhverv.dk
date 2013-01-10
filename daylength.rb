@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'sinatra/cookies'
+require 'sinatra/multi_route'
 require 'json'
 require 'date'
 require './lib/geolocator'
@@ -54,7 +55,7 @@ get '/' do
   erb :index, :locals => locals
 end
 
-post '/api/v1/calculate' do
+route :post, :get, '/api/v1/calculate' do
   logger = Logger.new(STDOUT)
   logger.info "API request from #{request.ip}: #{params}"
   

@@ -1,0 +1,38 @@
+<div class="row-fluid">
+  <div class="span8 offset2">
+    <h2>API</h2>
+    <p>Med APIet kan du hente informationen som bruges her på siden og bruge i andre sammenhænge.</p>
+    <p>APIet bruger almindelige HTTP requests og virker pt med POST og GET.</p>
+    
+    <h3>Input</h3>
+    <p>Indtil videre findes der kun en metode. Den har adressen <code>/api/v1/calculate</code>.</p>
+    <p>Som minimum kræves der længde- (<code>lng</code>) og breddegrad (<code>lat</code>). Du kan også angive en dato (<code>date</code>) på formatet <code>YYYY-MM-DD</code>, hvis du vil hente information om en specifik dato.</p>
+    <p>Bruger du POST skal input være JSON.</p>
+    
+    <h3>Datastruktur</h3>
+    <p>Svaret er JSON og har denne struktur:</p>
+    <ul>
+      <li><code>date</code><ul>
+        <li><code>interpreted</code> hvad APIet har tolket et evt datoinput som (eller dags dato)</li>
+        <li><code>supplied</code> den dato der blev opgivet (om nogen)</li>
+        </ul></li>
+      <li><code>latlng</code><ul>
+        <li><code>lat</code> breddegrad som blev brugt</li>
+        <li><code>lng</code> længdegrad som blev brugt</li>
+        </ul></li>
+      <li><code>solstice</code> dato for forrige vintersolhverv</li>
+      <li><code>hours</code> antal timer dagen er blevet længere</li>
+      <li><code>minutes</code> antal minutter (i tillæg til timerne)</li>
+      <li><code>difference</code> forskellen fra dagen før</li>
+    </ul>
+    
+    <h3>Projekter</h3>
+    <p>Indtil videre er der et projekt, som bruger APIet:</p>
+    <ul>
+      <li><a href="https://github.com/kthu/gnome-shell-extension-weather">Gnome Shell extension weather</a></li>
+    </ul>
+    <p>Hvis du har startet et projekt, som bruger data fra sidensolhverv.dk, så
+      <a href="mailto:ricco@fiskeben.dk">send en mail</a> med detaljer om projektet, hvis du har lyst til at
+      komme på listen.</p>
+  </div>
+</div>

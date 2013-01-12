@@ -1,95 +1,4 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Hvor meget er dagen tiltaget?</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <meta property="og:description" content="Se hvor meget dagen er tiltaget siden sidste vintersolhverv. Det er godt for vinterdepressionen." />
-    <meta property="og:image" content="http://sidensolhverv.dk/solhverv.jpg" />
-    <meta property="og:title" content="Hvor meget er dagen tiltaget?" />
-    <meta property="og:url" content="http://sidensolhverv.dk/" />
-    <script src="/js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" type="text/css" media="screen" title="Bootstrap" charset="utf-8"/>
-    <style type="text/css">
-          body {
-            padding-top: 20px;
-            padding-bottom: 40px;
-          }
-          
-          html {
-            height: 100%;
-          }
-          
-          body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-          }
-          
-          #map_canvas {
-            height: 450px;
-          }
 
-          /* Custom container */
-          .container-narrow {
-            margin: 0 auto;
-            max-width: 700px;
-          }
-          .container-narrow > hr {
-            margin: 30px 0;
-          }
-
-          .jumbotron {
-            margin: 60px 0;
-            text-align: center;
-          }
-          .jumbotron h2 {
-            font-size: 72px;
-            line-height: 1;
-          }
-          .jumbotron h2 small {
-            margin-left: 20px;
-          }
-          
-          .social {
-            margin: 120px 0;
-          }
-          
-          .social div {
-            margin: 20px 0;
-          }
-          
-          .center {
-            text-align: center;
-          }
-          
-        </style>
-        <script type="text/javascript">
-
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-632301-20']);
-          _gaq.push(['_trackPageview']);
-
-          (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
-
-        </script>
-  </head>
-  <body onload="initialize();">
-    <div class="container-narrow">
-      <div class="masthead">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="#hvad">Hvad?</a></li>
-        </ul>
-        <h1>Hvor meget er dagen tiltaget?</h1>
-        <p>Her kan du se hvor meget dagen er blevet længere siden sidste vintersolhverv. Det er godt for vinterdepressionen.</p>
-      </div>
-      
-      <hr>
-      
       <div class="row-fluid">
         <div class="jumbotron span8">
           <% if ok %>
@@ -125,166 +34,94 @@
       <hr>
       
       <div class="row-fluid">
-        <div class="span8 offset2">
+        <div class="span12">
           <% if ok and !place.nil? %>
             <h4>Ikke i <%= place %>?</h4>
           <% else %>
             <h4>Et andet sted?</h4>
           <% end %>
-          <div id="map_canvas" class="well"></div>
+          <div id="map-container">
+            <div id="map_canvas" class="well"></div>
+          </div>
         </div>
       </div>
       
-      <hr>
-      
-      <div class="row-fluid" id="hvad">
-        <div class="span10 offset1">
-          <h3>Hvad er dette for noget?</h3>
-          <p>Denne webside har det ene formål at informere om, hvor meget længere dagen er blevet siden forrige
-            vintersolhverv.</p>
-          <p>Hvert år omkring vintersolhverv tjekker jeg næsten dagligt, hvor meget længere dagen er blevet.
-            Jeg ville dog gerne vide, hvor meget dagen havde tiltaget totalt siden vintersolhverv og ikke bare siden
-            dagen før. Det fandt jeg aldrig, og ideen til denne webside var født.</p>
-          <p>Hvis du vil vide mere, så læs mit <a href="http://fiskeben.dk/2013/01/02/nyt-sideprojekt-hvor-meget-er-dagen-tiltaget-siden-vintersolhverv/">blogindlæg om vintersolhverv og Sidensolhverv.dk</a>.</p>
-          <p>Jeg håber du vil synes lige så meget om den som jeg selv, og jeg vil blive rigtig glad, hvis du bruger
-            knapperne og deler siden på Facebook, Twitter osv.</p>
-        </div>
-      </div>
-      
-      <div class="row-fluid">
-        <div class="span10 offset1">
-          <h3>FAQ</h3>
-          <p><b>Hvorfor passer tallene ikke?</b> Beregningen af dagens længde er baseret på <a href="http://herbert.gandraxa.com/length_of_day.xml">denne formel</a> og kan afvige noget fra virkelighedens verden. Cheer up! Det går mod lysere tider! </p>
-          <% if ok %>
-          <p><b>Hvorfor er min position unøjagtig?</b> Din position bestemmes ud fra din IP-adresse med <a href="http://freegeoip.net">freegeoip.net</a>. Alt afhængig af din internetudbyder kan positionen variere fra den central, du er koblet til, til det sted hvor din internettrafik forlader din udbyders net og går over på andres. Dette er der desværre ikke så meget at gøre ved. Brug kortet til at korrigere med.</p>
-          <% else %>
-          <p><b>Hvorfor kan min position ikke findes?</b> Positionen bestemmes ud fra din IP adresse med <a href="http://freegeoip.net">denne tjeneste</a>. Prøv den, og <a href="mailto:ricco@fiskeben.dk">send mig en mail</a>, hvis den kan finde din lokation men denne side ikke kan.</p>
-          <% end %>
-          <p><b>Bruges der cookies?</b> Ja til dels. Hver gang du vælger et nyt sted på kortet, bliver den position gemt i
-            en cookie. Kan du ikke acceptere det, bør du forlade siden.</p>
-          <p><b>API?</b> Ja, GET eller POST længde- (lng) og breddegrad (lat) som JSON til <code>/api/v1/calculate</code>. Du kan også angive <code>date</code> på formen <code>YYYY-MM-DD</code>, hvis du vide noget om en anden dag end dags dato. Svaret vil indeholde disse felter:</p>
-          <ul>
-            <li><code>date</code><ul>
-              <li><code>interpreted</code> hvad APIet har tolket et evt datoinput som (eller dags dato)</li>
-              <li><code>supplied</code> den dato der blev opgivet (om nogen)</li>
-              </ul></li>
-            <li><code>latlng</code><ul>
-              <li><code>lat</code> breddegrad som blev brugt</li>
-              <li><code>lng</code> længdegrad som blev brugt</li>
-              </ul></li>
-            <li><code>solstice</code> dato for forrige vintersolhverv</li>
-            <li><code>hours</code> antal timer dagen er blevet længere</li>
-            <li><code>minutes</code> antal minutter (i tillæg til timerne)</li>
-            <li><code>difference</code> forskellen fra dagen før</li>
-          </ul>
-        </div>
-      </div>
-      
-      <hr>
-      
-      <div class="row-fluid">
-        <div class="span12 center">
-          <p>Denne tjeneste er lavet af Ricco Førgaard. Jeg er <a href="http://twitter.com/fiskeben">@fiskeben på Twitter</a>, og jeg har <a href="http://fiskeben.dk">en blog</a>.</p>
-        </div>
-      </div>
-    </div>
-      
-    
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuCy51gG7lFVZBuLsq0nNMauMkdQMqkDc&sensor=true">
-    </script>
-    <script src="/js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
-    
-    <script type="text/javascript">
-      var map;
-      var marker;
-      var position = new google.maps.LatLng(<%= latitude %>, <%= longitude %>);
-      
-      function initialize() {
-        var mapOptions = {
-              center: position,
-              zoom: 4,
-              mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-        
-        marker = new google.maps.Marker({
-          position: position,
-          map: map
-        });
-       
-        google.maps.event.addListener(map, 'click', function(event) {
-          removeMarker();
-          placeMarker(event.latLng);
-        }); 
-      }
-      
-      function removeMarker() {
-        marker.setMap(null);
-      }
-      
-      function placeMarker(location) {
-        marker = new google.maps.Marker({
-              position: location, 
-              map: map
-          });
-          
-        map.setCenter(location);
-        
-        var payload = { lat: location.lat(), lng: location.lng() };
-        $.ajax({
-          url: "/api/v1/calculate",
-          type: 'post',
-          data: payload,
-          success: function(data) {
-            var text = '<p class="lead">Dagen er tiltaget med</p><h2>'
-              + data.hours
-              + ' time';
-            if (data.hours != 1) {
-              text += "r";
-            }
-            text += '<small>og</small></h2><h2>'
-              + data.minutes
-              + ' minut';
-            if (data.minutes != 1) {
-              text += 'ter';
-            }
-            text += '</h2><p class="lead">siden '
-              + data.solstice
-              + '</p><p>Det er '
-              + data.difference
-              + ' minut';
-            if (data.difference != 1) {
-              text += 'ter';
-            }
-            text += 'ter mere end i går</p>';
-            $(".jumbotron").html(text);
-            $.cookie("latitude", payload.lat);
-            $.cookie("longitude", payload.lng);
-          },
-          error: function() {
-            $(".jumbotron").html('<div class="alert alert-error">Dagens længde kunne ikke beregnes for denne position</div>');
-          }
-        });
-      }
+      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuCy51gG7lFVZBuLsq0nNMauMkdQMqkDc&sensor=true">
       </script>
-    
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/da_DK/all.js#xfbml=1&appId=191091391034497";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-    
-    <script type="text/javascript">
-      window.___gcfg = {lang: 'da'};
 
-      (function() {
-        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-        po.src = 'https://apis.google.com/js/plusone.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-      })();
-    </script>
-  </body>
-</html>
+
+      <script type="text/javascript">
+        var map;
+        var marker;
+        var position = new google.maps.LatLng(<%= latitude %>, <%= longitude %>);
+
+        var initialize = function() {
+          var mapOptions = {
+                center: position,
+                zoom: 4,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+          map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+          marker = new google.maps.Marker({
+            position: position,
+            map: map
+          });
+
+          google.maps.event.addListener(map, 'click', function(event) {
+            removeMarker();
+            placeMarker(event.latLng);
+          }); 
+        }
+
+        function removeMarker() {
+          marker.setMap(null);
+        }
+
+        function placeMarker(location) {
+          marker = new google.maps.Marker({
+                position: location, 
+                map: map
+            });
+
+          map.setCenter(location);
+
+          var payload = { lat: location.lat(), lng: location.lng() };
+          $.ajax({
+            url: "/api/v1/calculate",
+            type: 'post',
+            data: payload,
+            success: function(data) {
+              var text = '<p class="lead">Dagen er tiltaget med</p><h2>'
+                + data.hours
+                + ' time';
+              if (data.hours != 1) {
+                text += "r";
+              }
+              text += '<small>og</small></h2><h2>'
+                + data.minutes
+                + ' minut';
+              if (data.minutes != 1) {
+                text += 'ter';
+              }
+              text += '</h2><p class="lead">siden '
+                + data.solstice
+                + '</p><p>Det er '
+                + data.difference
+                + ' minut';
+              if (data.difference != 1) {
+                text += 'ter';
+              }
+              text += 'ter mere end i går</p>';
+              $(".jumbotron").html(text);
+              $.cookie("latitude", payload.lat);
+              $.cookie("longitude", payload.lng);
+            },
+            error: function() {
+              $(".jumbotron").html('<div class="alert alert-error">Dagens længde kunne ikke beregnes for denne position</div>');
+            }
+          });
+        }
+        
+        $(window).load(initialize);
+        </script>

@@ -46,13 +46,21 @@ configure do
 end
 
 get '/' do
-  locals = {}
+  locals = { }
   date = Date.today
   
-  locals = get_location
+  locals.merge!(get_location)
   locals.merge!(calculate_solstice(locals[:latitude], date)) if locals[:ok]
   
-  erb :index, :locals => locals
+  erb :application, :locals => {:partial => :index, :partial_locals => locals}
+end
+
+get '/api/?' do
+  erb :application, :locals => { :partial => :api, :partial_locals => {} }
+end
+
+get '/om/?' do 
+  erb :application, :locals => { :partial => :about, :partial_locals => {} }
 end
 
 route :post, :get, '/api/v1/calculate' do

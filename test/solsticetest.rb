@@ -1,7 +1,7 @@
 require 'test/unit'
-require 'lib/solstice'
-require 'lib/wintersolstice'
-require 'lib/summersolstice'
+require 'solstice'
+require 'wintersolstice'
+require 'summersolstice'
 
 class TestSolstices < Test::Unit::TestCase
     def test_previous_winter_solstice_before_new_years

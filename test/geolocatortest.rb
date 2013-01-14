@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'lib/geolocator'
+require 'geolocator'
 
 class GeolocatorTest < Test::Unit::TestCase
   def test_working_ip_address

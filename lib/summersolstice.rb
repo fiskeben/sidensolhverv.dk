@@ -1,4 +1,4 @@
-require 'lib/solstice'
+require 'solstice'
 
 class SummerSolstice < Solstice
   

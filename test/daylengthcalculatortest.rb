@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'lib/daylengthcalculator'
+require 'daylengthcalculator'
 
 class DayLengthCalculatorTest < Test::Unit::TestCase
   def test_day_length_between_equator_and_polar_circle

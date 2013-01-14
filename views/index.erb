@@ -73,6 +73,17 @@
             placeMarker(event.latLng);
           }); 
         }
+        
+        function createDate(date) {
+          var d = new Date(date);
+          var string = [];
+          string.push(d.getDate());
+          string.push('.');
+          string.push(d.getMonth() + 1);
+          string.push(' ');
+          string.push(d.getFullYear());
+          return string.join('');
+        }
 
         function removeMarker() {
           marker.setMap(null);
@@ -92,28 +103,29 @@
             type: 'post',
             data: payload,
             success: function(data) {
-              var text = '<p class="lead">Dagen er tiltaget med</p><h2>'
-                + data.hours
-                + ' time';
+              var text = [];
+              text.push('<p class="lead">Dagen er tiltaget med</p><h2>');
+              text.push(data.hours);
+              text.push(' time');
               if (data.hours != 1) {
-                text += "r";
+                text.push("r");
               }
-              text += '<small>og</small></h2><h2>'
-                + data.minutes
-                + ' minut';
+              text.push('<small>og</small></h2><h2>');
+              text.push(data.minutes);
+              text.push(' minut');
               if (data.minutes != 1) {
-                text += 'ter';
+                text.push('ter');
               }
-              text += '</h2><p class="lead">siden '
-                + data.solstice
-                + '</p><p>Det er '
-                + data.difference
-                + ' minut';
+              text.push('</h2><p class="lead">siden ');
+              text.push(createDate(data.solstice));
+              text.push('</p><small>Det er ');
+              text.push(data.difference);
+              text.push(' minut');
               if (data.difference != 1) {
-                text += 'ter';
+                text.push('ter');
               }
-              text += 'ter mere end i går</p>';
-              $(".jumbotron").html(text);
+              text.push(' mere end i går.</small>');
+              $(".jumbotron").html(text.join(''));
               $.cookie("latitude", payload.lat);
               $.cookie("longitude", payload.lng);
             },

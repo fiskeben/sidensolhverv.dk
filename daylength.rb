@@ -3,8 +3,8 @@ require 'sinatra/cookies'
 require 'sinatra/multi_route'
 require 'json'
 require 'date'
-require './lib/geolocator'
-require './lib/sincesolstice'
+require 'geolocator'
+require 'sincesolstice'
 
 def get_location
   location = {}
@@ -92,7 +92,7 @@ route :post, :get, '/api/v1/calculate' do
       :lat => params['lat'],
       :lng => params['lng']
     },
-    :solstice => sincesolstice.solstice.strftime("%d.%m %Y"),
+    :solstice => sincesolstice.solstice.strftime("%Y-%m-%d"),
     :hours => sincesolstice.hours,
     :minutes => sincesolstice.minutes,
     :difference => sincesolstice.get_difference_since_yesterday
@@ -102,6 +102,20 @@ route :post, :get, '/api/v1/calculate' do
     logger.error "API error: #{e}"
     data = { :error => "An error occurred" }
   end
+  
+  data.to_json
+end
+
+route :post, :get, '/api/v1/next-solstice' do
+  logger = Logger.new(STDOUT)
+  logger.info "API request from #{request.ip}: #{params}"
+  
+  content_type :json
+  
+  solstice = SinceSolstice.new nil, Date.today
+  data = {
+    :next_solstice => solstice.get_next_solstice.strftime("%Y-%m-%d")
+  }
   
   data.to_json
 end

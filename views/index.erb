@@ -1,20 +1,28 @@
 
       <div class="row-fluid">
+        <% if date_error %>
+          <div class="span8 offset2 alert">
+            <h4>Hovsa</h4>
+            <p>Datoen '<%= date_error %>' er vist ugyldig. Det gør ikke noget, vi viser bare dags dato i stedet.</p>
+          </div>
+        <% end %>
         <div class="jumbotron span8">
           <% if ok %>
             <% unless place.nil? %>
-              <p class="lead">I <%= place %> er dagen tiltaget med</p>
+              <p class="lead"><%= date.strftime("%d.%m %Y") %> er dagen i <%= place %> tiltaget med</p>
             <% else %>
-              <p class="lead">Dagen er tiltaget med</p>
+              <p class="lead"><%= date.strftime("%d.%m %Y") %> er dagen tiltaget med</p>
             <% end %>
             <h2><%= hours %> time<%= (hours != 1) ? "r" : "" %><small>og</small></h2>
             <h2><%= minutes %> minut<%= (minutes != 1) ? "ter" : "" %></h2>
-            <p class="lead">siden <%= solstice %></p>
+            <p class="lead">siden <%= solstice.strftime("%d.%m %Y") %></p>
             <small>Det er <%= difference %> minut<%= (difference != 1) ? "ter" : "" %> <%= (difference < 0) ? "kortere" : "længere" %> end i går.</small>
+            <small>Dagens længde er <%= length_in_hours %> time<%= (length_in_hours != 1) ? "r" : "" %> og <%= length_in_minutes %> minut<%= (length_in_minutes != 1) ? "ter" : "" %>.</small>
           <% else %>
             <p class="lead">Din position kunne ikke beregnes.
               Placer en nål på kortet herunder for at se dagens længde for det sted.</p>
           <% end %>
+          
         </div>
         
         <div class="span3 pull-right social">
@@ -28,6 +36,8 @@
           
           <div class="g-plusone" data-size="small" data-href="http://sidensolhverv.dk"></div>
 
+          <div><a id="permalink" href="http://sidensolhverv.dk/?date=<%= date.strftime("%Y-%m-%d") %>&lat=<%= latitude %>&lng=<%= longitude %>">Permalink</a></div>
+          
         </div>
       </div>
       
@@ -75,14 +85,94 @@
         }
         
         function createDate(date) {
-          var d = new Date(date);
+          console.log("creating date from " + date);
+          var d = getDateFromString(date);
           var string = [];
           string.push(d.getDate());
           string.push('.');
           string.push(d.getMonth() + 1);
           string.push(' ');
           string.push(d.getFullYear());
+          console.log("created " + string.join(''));
           return string.join('');
+        }
+        
+        function getDateFromString(date) {
+          var date_parts = date.toString().split('-');
+          var d = new Date();
+          d.setYear(date_parts[0]);
+          d.setMonth(date_parts[1] - 1);
+          d.setDate(date_parts[2]);
+          return d;
+        }
+        
+        function createISOdate(date) {
+          var d = getDateFromString(date);
+          var string = [];
+          string.push(d.getFullYear());
+          string.push('-');
+          var month = d.getMonth() + 1;
+          if (month < 10) {
+            month = "0" + month;
+          }
+          string.push(month);
+          string.push('-');
+          string.push(d.getDate());
+
+          return string.join('');
+        }
+        
+        function createText(data) {
+          var text = [];
+          text.push('<p class="lead">');
+          text.push(createDate(data.date.interpreted));
+          text.push(' er dagen tiltaget med</p><h2>');
+          text.push(data.hours);
+          text.push(' time');
+          if (data.hours != 1) {
+            text.push("r");
+          }
+          text.push('<small>og</small></h2><h2>');
+          text.push(data.minutes);
+          text.push(' minut');
+          if (data.minutes != 1) {
+            text.push('ter');
+          }
+          text.push('</h2><p class="lead">siden ');
+          text.push(createDate(data.solstice));
+          text.push('</p><small>Det er ');
+          text.push(data.difference);
+          text.push(' minut');
+          if (data.difference != 1) {
+            text.push('ter');
+          }
+          text.push(' mere end i går. Dagens længde er ');
+          text.push(data.day_length.hours);
+          text.push(' time');
+          if (data.day_length.hours != 1) {
+            text.push('r');
+          }
+          text.push(' og ');
+          text.push(data.day_length.minutes);
+          text.push(' minut');
+          if (data.day_length.minutes != 1) {
+            text.push('ter');
+          }
+          text.push('.</small>');
+          
+          return text.join('');
+        }
+        
+        function createPermalink(data) {
+          var link = [];
+          link.push('http://sidensolhverv.dk/?date=');
+          link.push(createISOdate(data.date.interpreted));
+          link.push('&lat=');
+          link.push(data.latlng.lat);
+          link.push('&lng=');
+          link.push(data.latlng.lng);
+          
+          return link.join('');
         }
 
         function removeMarker() {
@@ -103,29 +193,10 @@
             type: 'post',
             data: payload,
             success: function(data) {
-              var text = [];
-              text.push('<p class="lead">Dagen er tiltaget med</p><h2>');
-              text.push(data.hours);
-              text.push(' time');
-              if (data.hours != 1) {
-                text.push("r");
-              }
-              text.push('<small>og</small></h2><h2>');
-              text.push(data.minutes);
-              text.push(' minut');
-              if (data.minutes != 1) {
-                text.push('ter');
-              }
-              text.push('</h2><p class="lead">siden ');
-              text.push(createDate(data.solstice));
-              text.push('</p><small>Det er ');
-              text.push(data.difference);
-              text.push(' minut');
-              if (data.difference != 1) {
-                text.push('ter');
-              }
-              text.push(' mere end i går.</small>');
-              $(".jumbotron").html(text.join(''));
+              var text = createText(data);
+              $(".jumbotron").html(text);
+              var permalink = createPermalink(data);
+              $("#permalink").attr('href', permalink);
               $.cookie("latitude", payload.lat);
               $.cookie("longitude", payload.lng);
             },

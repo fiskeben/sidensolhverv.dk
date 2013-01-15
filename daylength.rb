@@ -34,10 +34,12 @@ def calculate_solstice(latitude, date)
   data = {}
   sincesolstice = SinceSolstice.new latitude, date
   
-  data[:solstice] = sincesolstice.solstice.strftime "%d.%m %Y"
+  data[:solstice] = sincesolstice.solstice
   data[:hours] = sincesolstice.hours
   data[:minutes] = sincesolstice.minutes
   data[:difference] = sincesolstice.get_difference_since_yesterday
+  data[:length_in_hours] = sincesolstice.day_length.hours
+  data[:length_in_minutes] = sincesolstice.day_length.minutes
   data
 end
 
@@ -46,11 +48,26 @@ configure do
 end
 
 get '/' do
-  locals = { }
-  date = Date.today
+  locals = { :date_error => false }
   
-  locals.merge!(get_location)
+  if (params['date'])
+    begin
+      date = Date.strptime params['date'], "%Y-%m-%d"
+    rescue ArgumentError
+      date = Date.today
+      locals[:date_error] = params['date']
+    end
+  else
+    date = Date.today
+  end
+  
+  if (params['lat'] and params['lng'])
+    locals.merge!({:latitude => params['lat'], :longitude => params['lng'], :ok => true, :place => nil})
+  else
+    locals.merge!(get_location)
+  end
   locals.merge!(calculate_solstice(locals[:latitude], date)) if locals[:ok]
+  locals['date'] = date
   
   erb :application, :locals => {:partial => :index, :partial_locals => locals}
 end
@@ -91,6 +108,10 @@ route :post, :get, '/api/v1/calculate' do
     :latlng => {
       :lat => params['lat'],
       :lng => params['lng']
+    },
+    :day_length => {
+      :hours => sincesolstice.day_length.hours,
+      :minutes => sincesolstice.day_length.minutes
     },
     :solstice => sincesolstice.solstice.strftime("%Y-%m-%d"),
     :hours => sincesolstice.hours,

@@ -44,4 +44,10 @@ class TestSinceSolstice < Test::Unit::TestCase
     assert_equal(Date.new(2013, 12, 21).strftime(@@date_format), solstice.strftime(@@date_format))
   end
   
+  def test_length_of_day
+    since_solstice = SinceSolstice.new(56, Date.new(2013, 3, 2))
+    length = since_solstice.day_length
+    assert_equal(10, length.hours, "Number of hours in day length is wrong")
+    assert_equal(23, length.minutes, "Number of minutes in day length is wrong")
+  end
 end

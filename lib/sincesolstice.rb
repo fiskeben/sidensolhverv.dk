@@ -17,11 +17,20 @@ class SinceSolstice
   end
   
   def hours
-    (@time_difference / 60).to_s.split(".").first.to_i
+    minutes_to_hours(@time_difference)
   end
   
   def minutes
-    (@time_difference - hours * 60).round(0)
+    remaining_minutes(@time_difference)
+  end
+  
+  def day_length
+    if @length.nil?
+      hours = minutes_to_hours(@length_of_today)
+      minutes = remaining_minutes(@length_of_today)
+      @length = Length.new(hours, minutes)
+    end
+    @length
   end
   
   def get_difference_since_yesterday
@@ -56,8 +65,8 @@ class SinceSolstice
   def get_time_difference
     @calculator = DayLengthCalculator.new @latitude
     length_of_day_at_solstice = @calculator.calculate_length_of_day 0
-    length_of_today = @calculator.calculate_length_of_day(@days_since_solstice)
-    length_of_today - length_of_day_at_solstice
+    @length_of_today = @calculator.calculate_length_of_day(@days_since_solstice)
+    @length_of_today - length_of_day_at_solstice
   end
   
   def next_summer_solstice
@@ -74,5 +83,22 @@ class SinceSolstice
   
   def previous_winter_solstice
     WinterSolstice.previous(@date)
+  end
+  
+  def minutes_to_hours(minutes)
+    (minutes / 60).to_s.split(".").first.to_i
+  end
+  
+  def remaining_minutes(minutes)
+    minutes - (minutes_to_hours(minutes) * 60).round(0)
+  end
+  
+  class Length
+    attr_reader :hours, :minutes
+    
+    def initialize(hours, minutes)
+      @hours = hours
+      @minutes = minutes
+    end
   end
 end

@@ -8,18 +8,23 @@
         <% end %>
         <div class="jumbotron span8">
           <% if ok %>
-            <% unless place.nil? %>
-              <p class="lead"><%= date.strftime("%d.%m %Y") %> er dagen i <%= place %> tiltaget med</p>
-            <% else %>
-              <p class="lead"><%= date.strftime("%d.%m %Y") %> er dagen tiltaget med</p>
-            <% end %>
-            <h2><%= hours %> time<%= (hours != 1) ? "r" : "" %><small>og</small></h2>
-            <h2><%= minutes %> minut<%= (minutes != 1) ? "ter" : "" %></h2>
-            <p class="lead">siden <%= solstice.strftime("%d.%m %Y") %></p>
-            <small>Det er <%= difference %> minut<%= (difference != 1) ? "ter" : "" %> <%= (difference < 0) ? "kortere" : "længere" %> end i går.</small>
-            <small>Dagens længde er <%= length_in_hours %> time<%= (length_in_hours != 1) ? "r" : "" %> og <%= length_in_minutes %> minut<%= (length_in_minutes != 1) ? "ter" : "" %>.</small>
+
+              <p class="lead">
+                <%= date.strftime("%-d. #{month(date.month)} %Y") %> er dagen
+                <% unless place.nil? %>
+                  i <%= place %> 
+                <% end %>     
+                <%= (hours < 0 or minutes < 0) ? "aftaget" : "tiltaget" %> med
+            </p>
+
+            <h2><%= plural(hours.abs, "time", "r")%><small>og</small></h2>
+            <h2><%= plural(minutes.abs, "minut", "ter") %></h2>
+            <p class="lead">siden <%= solstice.strftime("%-d. #{month(solstice.month)} %Y") %></p>
+            <small>Det er <%= plural(difference.abs, "minut", "ter") %> <%= (difference < 0) ? "kortere" : "længere" %> end i går.</small>
+            <small>Dagens længde er <%= plural(length_in_hours, "time", "r") %> og <%= plural(length_in_minutes, "minut", "ter") %>.</small>
           <% else %>
-            <p class="lead">Din position kunne ikke beregnes.
+            <p class="lead">
+              Din position kunne ikke beregnes.
               Placer en nål på kortet herunder for at se dagens længde for det sted.</p>
           <% end %>
           
@@ -61,6 +66,19 @@
 
 
       <script type="text/javascript">
+        var months = [
+          'januar',
+          'februar',
+          'marts',
+          'april',
+          'maj',
+          'juni',
+          'juli',
+          'august',
+          'september',
+          'oktober',
+          'november',
+          'december'];
         var map;
         var marker;
         var position = new google.maps.LatLng(<%= latitude %>, <%= longitude %>);
@@ -85,15 +103,13 @@
         }
         
         function createDate(date) {
-          console.log("creating date from " + date);
           var d = getDateFromString(date);
           var string = [];
           string.push(d.getDate());
-          string.push('.');
-          string.push(d.getMonth() + 1);
+          string.push('. ');
+          string.push(months[d.getMonth()]);
           string.push(' ');
           string.push(d.getFullYear());
-          console.log("created " + string.join(''));
           return string.join('');
         }
         

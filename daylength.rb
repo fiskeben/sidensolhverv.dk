@@ -5,6 +5,7 @@ require 'json'
 require 'date'
 require 'geolocator'
 require 'sincesolstice'
+require 'month'
 
 def get_location
   location = {}
@@ -139,4 +140,14 @@ route :post, :get, '/api/v1/next-solstice' do
   }
   
   data.to_json
+end
+
+helpers do
+  def month(index)
+    Month::get(index)
+  end
+  
+  def plural(value, noun, plu)
+    "#{value} #{noun}#{(value == 1) ? "" : plu}"
+  end
 end

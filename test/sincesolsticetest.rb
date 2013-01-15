@@ -20,8 +20,8 @@ class TestSinceSolstice < Test::Unit::TestCase
     assert_equal(2012, since_solstice.solstice.year, "Summer solstice is in wrong year")
     assert_equal(6, since_solstice.solstice.month, "Summer solstice is in wrong month")
     assert_equal(20, since_solstice.solstice.day, "Summer solstice is on wrong day")
-    assert_equal(5, since_solstice.hours, "Number of hours since summer solstice is wrong")
-    assert_equal(42, since_solstice.minutes, "Number of minutes since summer solstice is wrong")
+    assert_equal(-3, since_solstice.hours, "Number of hours since summer solstice is wrong")
+    assert_equal(-9, since_solstice.minutes, "Number of minutes since summer solstice is wrong")
   end
   
   def test_hours_and_minutes_at_solstice

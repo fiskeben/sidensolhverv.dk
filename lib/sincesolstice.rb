@@ -11,8 +11,11 @@ class SinceSolstice
     @latitude = latitude
     @date = date
     @solstice = get_previous_solstice
-    
-    @days_since_solstice = (@date - @solstice).to_i
+    if @solstice.month == 6
+      @days_since_solstice = (@date - previous_winter_solstice).to_i
+    else
+      @days_since_solstice = (@date - @solstice).to_i
+    end
     @time_difference = get_time_difference
   end
   
@@ -64,7 +67,11 @@ class SinceSolstice
   
   def get_time_difference
     @calculator = DayLengthCalculator.new @latitude
-    length_of_day_at_solstice = @calculator.calculate_length_of_day 0
+    if @solstice.month == 6
+      length_of_day_at_solstice = @calculator.calculate_length_of_day((@solstice - previous_winter_solstice).to_i)
+    else
+      length_of_day_at_solstice = @calculator.calculate_length_of_day 0
+    end
     @length_of_today = @calculator.calculate_length_of_day(@days_since_solstice)
     @length_of_today - length_of_day_at_solstice
   end
@@ -86,11 +93,11 @@ class SinceSolstice
   end
   
   def minutes_to_hours(minutes)
-    (minutes / 60).to_s.split(".").first.to_i
+    (minutes.to_f / 60).to_s.split(".").first.to_i
   end
   
   def remaining_minutes(minutes)
-    minutes - (minutes_to_hours(minutes) * 60).round(0)
+    (minutes.to_f - (minutes_to_hours(minutes) * 60)).floor
   end
   
   class Length

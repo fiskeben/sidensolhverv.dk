@@ -1,4 +1,6 @@
 require 'rake/testtask'
+require 'single_test'
+SingleTest.load_tasks
 
 desc "Test everything"
 Rake::TestTask.new do |t|

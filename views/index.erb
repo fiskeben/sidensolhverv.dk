@@ -17,8 +17,16 @@
                 <%= (hours < 0 or minutes < 0) ? "aftaget" : "tiltaget" %> med
             </p>
 
-            <h2><%= plural(hours.abs, "time", "r")%><small>og</small></h2>
-            <h2><%= plural(minutes.abs, "minut", "ter") %></h2>
+            <% if hours > 0 %>
+              <h2>
+                <%= plural(hours.abs, "time", "r")%>
+                <%if minutes > 0 %>
+                  <small>og</small></h2>
+                <% end %>
+            <% end %>
+            <% if minutes > 0 %>
+              <h2><%= plural(minutes.abs, "minut", "ter") %></h2>
+            <% end %>
             <p class="lead">siden <%= solstice.strftime("%-d. #{month(solstice.month)} %Y") %></p>
             <small>Det er <%= plural(difference.abs, "minut", "ter") %> <%= (difference < 0) ? "kortere" : "længere" %> end i går.</small>
             <small>Dagens længde er <%= plural(length_in_hours, "time", "r") %> og <%= plural(length_in_minutes, "minut", "ter") %>.</small>
@@ -142,19 +150,29 @@
           var text = [];
           text.push('<p class="lead">');
           text.push(createDate(data.date.interpreted));
-          text.push(' er dagen tiltaget med</p><h2>');
-          text.push(data.hours);
-          text.push(' time');
-          if (data.hours != 1) {
-            text.push("r");
+          text.push(' er dagen tiltaget med</p>');
+          if (data.hours > 0) {
+            text.push('<h2>');
+            text.push(data.hours);
+            text.push(' time');
+            if (data.hours != 1) {
+              text.push("r");
+            }
+            if (data.minutes > 0) {
+              text.push('<small>og</small>');
+            }
+            text.push('</h2>');
           }
-          text.push('<small>og</small></h2><h2>');
-          text.push(data.minutes);
-          text.push(' minut');
-          if (data.minutes != 1) {
-            text.push('ter');
+          if (data.minutes > 0) {
+            text.push('<h2>')
+            text.push(data.minutes);
+            text.push(' minut');
+            if (data.minutes != 1) {
+              text.push('ter');
+            }
+            text.push('</h2>');
           }
-          text.push('</h2><p class="lead">siden ');
+          text.push('<p class="lead">siden ');
           text.push(createDate(data.solstice));
           text.push('</p><small>Det er ');
           text.push(data.difference);

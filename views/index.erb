@@ -21,8 +21,9 @@
               <h2>
                 <%= plural(hours.abs, "time", "r")%>
                 <%if minutes > 0 %>
-                  <small>og</small></h2>
+                  <small>og</small>
                 <% end %>
+                </h2>
             <% end %>
             <% if minutes > 0 %>
               <h2><%= plural(minutes.abs, "minut", "ter") %></h2>

@@ -4,9 +4,13 @@
     <title>Hvor meget er dagen tiltaget?</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <meta property="og:description" content="Se hvor meget dagen er tiltaget siden sidste vintersolhverv. Det er godt for vinterdepressionen." />
+    <% if partial_locals[:date] %>
+      <meta property="og:description" content="Se hvor meget længere den <%= partial_locals[:date].strftime("%-d. #{month(partial_locals[:date].month)} %Y") %> er end ved sidste vintersolhverv. Det er godt for vinterdepressionen!" />
+    <% else %>
+      <meta property="og:description" content="Følg med i hvor meget dagen er tiltager siden sidste vintersolhverv. Det er godt for vinterdepressionen!" />
+    <% end %>
     <meta property="og:image" content="http://sidensolhverv.dk/solhverv.jpg" />
-    <meta property="og:title" content="Hvor meget er dagen tiltaget?" />
+    <meta property="og:title" content="Følg med i hvor meget dagen tiltager" />
     <meta property="og:url" content="http://sidensolhverv.dk/" />
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" type="text/css" media="screen" charset="utf-8"/>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css" type="text/css" media="screen" charset="utf-8">

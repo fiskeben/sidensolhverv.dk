@@ -68,7 +68,7 @@ get '/' do
     locals.merge!(get_location)
   end
   locals.merge!(calculate_solstice(locals[:latitude], date)) if locals[:ok]
-  locals['date'] = date
+  locals[:date] = date
   
   erb :application, :locals => {:partial => :index, :partial_locals => locals}
 end

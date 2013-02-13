@@ -101,6 +101,11 @@
           };
           map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
+          google.maps.event.addListener(map, 'click', function(event) {
+            removeMarker();
+            placeMarker(event.latLng);
+          });
+          
           if (usingDefaultLocation) {
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(function(detectedPosition) {
@@ -120,11 +125,6 @@
           marker = new google.maps.Marker({
             position: pos,
             map: map
-          });
-
-          google.maps.event.addListener(map, 'click', function(event) {
-            removeMarker();
-            placeMarker(event.latLng);
           });
         }
         
@@ -228,7 +228,9 @@
         }
 
         function removeMarker() {
-          marker.setMap(null);
+          if (marker) {
+            marker.setMap(null);
+          }
         }
 
         function placeMarker(location) {

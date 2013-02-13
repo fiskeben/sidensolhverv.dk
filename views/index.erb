@@ -90,6 +90,7 @@
           'december'];
         var map;
         var marker;
+        var usingDefaultLocation = <%= (ok) ? 'false' : 'true' %>;
         var position = new google.maps.LatLng(<%= latitude %>, <%= longitude %>);
 
         var initialize = function() {
@@ -100,15 +101,31 @@
           };
           map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
+          if (usingDefaultLocation) {
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(detectedPosition) {
+                var coords = detectedPosition.coords;
+                var somePosition = new google.maps.LatLng(coords.latitude, coords.longitude);
+                placeMarker(somePosition);
+              });
+            } else {
+              addPositionToMap(position);
+            }
+          } else {
+            addPositionToMap(position);
+          }
+        }
+        
+        function addPositionToMap(pos) {
           marker = new google.maps.Marker({
-            position: position,
+            position: pos,
             map: map
           });
 
           google.maps.event.addListener(map, 'click', function(event) {
             removeMarker();
             placeMarker(event.latLng);
-          }); 
+          });
         }
         
         function createDate(date) {

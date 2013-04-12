@@ -12,103 +12,24 @@
     <meta property="og:image" content="http://sidensolhverv.dk/solhverv.jpg" />
     <meta property="og:title" content="Følg med i hvor meget dagen tiltager" />
     <meta property="og:url" content="http://sidensolhverv.dk/" />
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" type="text/css" media="screen" charset="utf-8"/>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css" type="text/css" media="screen" charset="utf-8">
-    <style type="text/css">
-          body {
-            padding: 20px 0 40px 0;
-            margin: 0;
-          }
-          
-          @media (min-width: 768px) {
-            #map-container {
-              max-width: 700px;
-            }
-            #map_canvas {
-              padding-top: 56.25%;
-              height: 120px;
-            }
-            /* Custom container */
-            .container-narrow {
-              margin: 0 auto;
-              max-width: 700px;
-            }
-            .container-narrow > hr {
-              margin: 30px 0;
-            }
-            .jumbotron {
-              margin: 60px 0;
-              text-align: center;
-            }
-            .jumbotron h2 {
-              font-size: 72px;
-              line-height: 1;
-            }
-            .social {
-              margin: 60px 0;
-            }
-            .social div {
-              margin: 20px 0;
-            }
-          }
-          
-          @media (max-width: 767px) {
-            body {
-              margin: 10px;
-            }
-            #map-container {
-              width: 100%;
-              max-width: 100%;
-            }
-            #map_canvas {
-              max-width: 727px;
-              height: 200px;
-            }
-            .container-narrow > hr {
-              margin: 20px 0;
-            }
-            .jumbotron {
-              margin: 30px 0;
-              text-align: center;
-            }
-            .jumbotron h2 {
-              font-size: 36px;
-              line-height: 1;
-            }
-            .social {
-              margin: 30px 0 10px 0;
-              display: block;
-            }
-            .social div {
-              display: inline;
-              margin: 0 10px 10px 0 !important;
-            }
-          }
+    <link rel="stylesheet" href="components/bootstrap.css/css/bootstrap.css" type="text/css" media="screen" charset="utf-8"/>
+    <link rel="stylesheet" href="components/bootstrap.css/css/bootstrap-responsive.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="assets/styles.css" type="text/css" media="screen" title="Custom styles" charset="utf-8"/>
+    <script src="components/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="components/bootstrap.css/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
 
-          .jumbotron h2 small {
-            margin-left: 20px;
-          }
-          
-          .center {
-            text-align: center;
-          }
-          
-        </style>
-        <script src="/js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-        <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-632301-20']);
+      _gaq.push(['_trackPageview']);
 
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-632301-20']);
-          _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
 
-          (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
-
-        </script>
+    </script>
   </head>
   <body>
     <div class="container-fluid container-narrow">
@@ -136,8 +57,7 @@
       </div>
     </div>
       
-    <script src="/js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
-
+    <script src="components/jquery.cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
     
     <div id="fb-root"></div>
     <script>(function(d, s, id) {

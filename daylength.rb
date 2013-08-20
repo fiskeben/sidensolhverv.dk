@@ -53,7 +53,7 @@ get '/' do
     date = Date.today
   end
   
-  if (params['lat'] and params['lng'])
+  if (params['lat'] && params['lng'])
     locals.merge!({:latitude => params['lat'], :longitude => params['lng'], :ok => true, :place => nil})
   else
     locals.merge!(get_location)
@@ -115,7 +115,7 @@ route :post, :get, '/api/v1/calculate' do
     logger.error "API error: #{e}"
     data = { :error => "An error occurred" }
   end
-  
+  logger.info data
   data.to_json
 end
 

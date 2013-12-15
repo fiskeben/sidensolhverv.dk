@@ -1,40 +1,25 @@
-
+<script id="template" type="text/x-handlebars-template">
+  <p class="lead">{{date}} er dagen i {{place}} {{verb}} med</p>
+  
+  <h2>
+    {{#if hours}}{{hours}} {{plural hours 'time' 'r'}}{{/if}}
+    {{#if minutes}}
+      <small>og</small>
+    {{/if}}
+  </h2>
+  {{#if minutes}}
+    <h2>{{minutes}} {{plural minutes 'minut' 'ter'}}</h2>
+  {{/if}}
+  
+  <p class="lead">siden {{solstice}}</p>
+  <small>Det er {{difference}} {{plural difference 'minut' 'ter'}} {{direction}} end i går.</small>
+  <small>Dagens længde er {{day_length.hours}} {{plural day_length.hours 'time' 'r'}} og {{day_length.minutes}} {{plural day_length.minutes 'minut' 'ter'}}.</small>  
+</script>
       <div class="row-fluid">
-        <% if date_error %>
-          <div class="span8 offset2 alert">
-            <h4>Hovsa</h4>
-            <p>Datoen '<%= date_error %>' er vist ugyldig. Det gør ikke noget, vi viser bare dags dato i stedet.</p>
-          </div>
-        <% end %>
-        <div class="jumbotron span8">
-          <% if ok %>
-
-              <p class="lead">
-                <%= date.strftime("%-d. #{month(date.month)} %Y") %> er dagen
-                <% unless place.nil? %>
-                  i <%= place %> 
-                <% end %>     
-                <%= (hours < 0 or minutes < 0) ? "aftaget" : "tiltaget" %> med
-            </p>
-
-            <h2>
-              <%= plural(hours.abs, "time", "r")%>
-              <%if minutes != 0 %>
-                <small>og</small>
-              <% end %>
-            </h2>
-            <% if minutes != 0 %>
-              <h2><%= plural(minutes.abs, "minut", "ter") %></h2>
-            <% end %>
-            <p class="lead">siden <%= solstice.strftime("%-d. #{month(solstice.month)} %Y") %></p>
-            <small>Det er <%= plural(difference.abs, "minut", "ter") %> <%= (difference < 0) ? "kortere" : "længere" %> end i går.</small>
-            <small>Dagens længde er <%= plural(length_in_hours, "time", "r") %> og <%= plural(length_in_minutes, "minut", "ter") %>.</small>
-          <% else %>
+        <div id="messagepane" class="jumbotron span8">
             <p class="lead">
-              Prøver at finde din position.
-              Placer en nål på kortet herunder for at se dagens længde for det sted.</p>
-          <% end %>
-          
+              Placer en nål på kortet herunder for at se dagens længde for det sted.
+            </p>
         </div>
         
         <div class="span3 social">
@@ -48,9 +33,7 @@
           
           <div class="g-plusone" data-size="small" data-href="http://sidensolhverv.dk"></div>
 
-          <% if ok %>
-          <div><a id="permalink" href="http://sidensolhverv.dk/?date=<%= date.strftime("%Y-%m-%d") %>&lat=<%= latitude %>&lng=<%= longitude %>">Permalink</a></div>
-          <% end %>
+          <div><a id="permalink" href="http://sidensolhverv.dk/">Permalink</a></div>
           
         </div>
       </div>
@@ -59,11 +42,9 @@
       
       <div class="row-fluid">
         <div class="span12">
-          <% if ok and !place.nil? %>
-            <h4>Ikke i <%= place %>?</h4>
-          <% else %>
+          
             <h4>Et andet sted?</h4>
-          <% end %>
+          
           <div id="map-container">
             <div id="map_canvas" class="well"></div>
           </div>
@@ -75,199 +56,7 @@
 
 
       <script type="text/javascript">
-        var months = [
-          'januar',
-          'februar',
-          'marts',
-          'april',
-          'maj',
-          'juni',
-          'juli',
-          'august',
-          'september',
-          'oktober',
-          'november',
-          'december'];
-        var map;
-        var marker;
-        var usingDefaultLocation = <%= (ok) ? 'false' : 'true' %>;
-        var position = new google.maps.LatLng(<%= latitude %>, <%= longitude %>);
-
-        var initialize = function() {
-          var mapOptions = {
-                center: position,
-                zoom: 4,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-          };
-          map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-
-          google.maps.event.addListener(map, 'click', function(event) {
-            removeMarker();
-            placeMarker(event.latLng);
-          });
-          
-          if (usingDefaultLocation) {
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(function(detectedPosition) {
-                var coords = detectedPosition.coords;
-                var somePosition = new google.maps.LatLng(coords.latitude, coords.longitude);
-                placeMarker(somePosition);
-              });
-            } else {
-              addPositionToMap(position);
-            }
-          } else {
-            addPositionToMap(position);
-          }
-        }
-        
-        function addPositionToMap(pos) {
-          marker = new google.maps.Marker({
-            position: pos,
-            map: map
-          });
-        }
-        
-        function createDate(date) {
-          var d = getDateFromString(date);
-          var string = [];
-          string.push(d.getDate());
-          string.push('. ');
-          string.push(months[d.getMonth()]);
-          string.push(' ');
-          string.push(d.getFullYear());
-          return string.join('');
-        }
-        
-        function getDateFromString(date) {
-          var date_parts = date.toString().split('-');
-          var d = new Date();
-          d.setYear(date_parts[0]);
-          d.setMonth(date_parts[1] - 1);
-          d.setDate(date_parts[2]);
-          return d;
-        }
-        
-        function createISOdate(date) {
-          var d = getDateFromString(date);
-          var string = [];
-          string.push(d.getFullYear());
-          string.push('-');
-          var month = d.getMonth() + 1;
-          if (month < 10) {
-            month = "0" + month;
-          }
-          string.push(month);
-          string.push('-');
-          string.push(d.getDate());
-
-          return string.join('');
-        }
-        
-        function createText(data) {
-          var text = [];
-          text.push('<p class="lead">');
-          text.push(createDate(data.date.interpreted));
-          text.push(' er dagen ');
-          if (data.hours > 0) {
-            text.push('tiltaget');
-          } else {
-            text.push('aftaget');
-          }
-          text.push(' med</p>');
-          text.push('<h2>');
-          text.push(Math.abs(data.hours));
-          text.push(' time');
-          if (Math.abs(data.hours) !== 1) {
-            text.push("r");
-          }
-          if (data.minutes !== 0) {
-            text.push('<small>og</small>');
-          }
-          text.push('</h2>');
-
-          text.push('<h2>')
-          text.push(Math.abs(data.minutes));
-          text.push(' minut');
-          if (Math.abs(data.minutes) !== 1) {
-            text.push('ter');
-          }
-          text.push('</h2>');
-          
-          text.push('<p class="lead">siden ');
-          text.push(createDate(data.solstice));
-          text.push('</p><small>Det er ');
-          text.push(Math.abs(data.difference));
-          text.push(' minut');
-          if (Math.abs(data.difference) !== 1) {
-            text.push('ter');
-          }
-          if (data.difference >= 0) {
-            text.push(' mere');
-          } else {
-            text.push(' kortere');
-          }
-          text.push(' end i går. Dagens længde er ');
-          text.push(data.day_length.hours);
-          text.push(' time');
-          if (data.day_length.hours != 1) {
-            text.push('r');
-          }
-          text.push(' og ');
-          text.push(data.day_length.minutes);
-          text.push(' minut');
-          if (data.day_length.minutes != 1) {
-            text.push('ter');
-          }
-          text.push('.</small>');
-          
-          return text.join('');
-        }
-        
-        function createPermalink(data) {
-          var link = [];
-          link.push('http://sidensolhverv.dk/?date=');
-          link.push(createISOdate(data.date.interpreted));
-          link.push('&lat=');
-          link.push(data.latlng.lat);
-          link.push('&lng=');
-          link.push(data.latlng.lng);
-          
-          return link.join('');
-        }
-
-        function removeMarker() {
-          if (marker) {
-            marker.setMap(null);
-          }
-        }
-
-        function placeMarker(location) {
-          marker = new google.maps.Marker({
-                position: location, 
-                map: map
-            });
-
-          map.setCenter(location);
-
-          var payload = { lat: location.lat(), lng: location.lng() };
-          $.ajax({
-            url: "/api/v1/calculate",
-            type: 'post',
-            data: payload,
-            success: function(data) {
-              var text = createText(data);
-              $(".jumbotron").html(text);
-              var permalink = createPermalink(data);
-              $("#permalink").attr('href', permalink);
-              $.cookie("latitude", payload.lat);
-              $.cookie("longitude", payload.lng);
-            },
-            error: function() {
-              $(".jumbotron").html('<div class="alert alert-error">Dagens længde kunne ikke beregnes for denne position</div>');
-            }
-          });
-        }
-        
-        $(window).load(initialize);
-        </script>
+        $(window).load(function () {
+          Map.initialize('#map_canvas');
+        });
+      </script>

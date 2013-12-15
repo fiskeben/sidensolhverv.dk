@@ -55,8 +55,6 @@ get '/' do
   
   if (params['lat'] && params['lng'])
     locals.merge!({:latitude => params['lat'], :longitude => params['lng'], :ok => true, :place => nil})
-  else
-    locals.merge!(get_location)
   end
   locals.merge!(calculate_solstice(locals[:latitude], date)) if locals[:ok]
   locals[:date] = date

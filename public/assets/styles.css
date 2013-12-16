@@ -3,6 +3,10 @@ body {
   margin: 0;
 }
 
+.spinner {
+  max-width: 50px;
+}
+
 @media (min-width: 768px) {
   #map-container {
     max-width: 700px;

@@ -1,3 +1,7 @@
+var updateStatus = function (msg) {
+	$('#messagepane>p').html(msg);
+};
+
 var Map = (function ($) {
 
 	var
@@ -56,6 +60,7 @@ var Map = (function ($) {
 		},
 
 		initialize = function (canvas, options) {
+			updateStatus('Initialiserer kort');
 			var mapOptions = $.extend({
 				zoom: 4,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -98,6 +103,7 @@ var Position = (function () {
     },
 
 		getPosition = function (cb) {
+			updateStatus('<p>Vent lidt mens din position beregnes.</p><div><span class="spinner"><i class="icon-spin icon-refresh"></i></span></div>');
 			if (navigator.geolocation) {
 		    navigator.geolocation.getCurrentPosition(cb);
 		  } else {
@@ -129,6 +135,7 @@ var Position = (function () {
 var Server = (function ($) {
 	var
 		getDataForLocation = function (location) {
+			updateStatus('Henter data fra serveren');
 			var payload = { lat: location.lat(), lng: location.lng() };
       return $.ajax({
         url: "/api/v1/calculate",

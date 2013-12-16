@@ -7,10 +7,17 @@ body {
   max-width: 50px;
 }
 
-@media (min-width: 768px) {
-  #map-container {
-    max-width: 700px;
+#map-container {
+  max-width: 100%;
+}
+
+@media (max-width: 991px) {
+  .social>div {
+    display: inline;
   }
+}
+
+@media (min-width: 768px) {
   #map_canvas {
     padding-top: 56.25%;
     height: 120px;
@@ -35,7 +42,7 @@ body {
     margin: 60px 0;
   }
   .social div {
-    margin: 20px 0;
+    margin: 0 10px 10px 0 !important;
   }
 }
 
@@ -44,11 +51,9 @@ body {
     margin: 10px;
   }
   #map-container {
-    width: 100%;
     max-width: 100%;
   }
   #map_canvas {
-    max-width: 727px;
     height: 200px;
   }
   .container-narrow > hr {
@@ -67,7 +72,6 @@ body {
     display: block;
   }
   .social div {
-    display: inline;
     margin: 0 10px 10px 0 !important;
   }
 }

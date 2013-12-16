@@ -39,25 +39,23 @@
     </script>
   </head>
   <body>
-    <div class="container-fluid container-narrow">
+    <div class="container">
       <div class="masthead">
         <h1>Hvor meget er dagen tiltaget?</h1>
         <p>Her kan du se hvor meget dagen er blevet længere siden sidste vintersolhverv. Det er godt for vinterdepressionen.</p>
-        <ul class="nav nav-pills pull-right">
+        <ul class="nav nav-tabs">
           <li<%= (partial == :index) ? ' class="active"' : '' %>><a href="/">Siden solhverv</a>
           <li<%= (partial == :about) ? ' class="active"' : '' %>><a href="/om">Om</a></li>
           <li<%= (partial == :api) ? ' class="active"' : '' %>><a href="/api">API</a></li>
         </ul>
       </div>
       
-      <hr>
-      
       <%= erb partial, :locals => partial_locals %>
             
       <hr>
       
-      <div class="row-fluid">
-        <div class="span12 center">
+      <div class="row">
+        <div class="col-md12 center">
           <p>Denne tjeneste er lavet af Ricco Førgaard. Jeg er <a href="http://twitter.com/fiskeben">@fiskeben på Twitter</a>, og jeg har <a href="http://fiskeben.dk">en blog</a>.</p>
           <p>Hvis du synes om siden, så overvej at støtte den <a target="_blank" href="http://www.amazon.com/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&tag=sidensolhverv-20">når du handler på Amazon</a><img src="https://www.assoc-amazon.com/e/ir?t=sidensolhverv-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> ved at bruge dette link.</p>
         </div>

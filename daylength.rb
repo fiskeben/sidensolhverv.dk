@@ -40,25 +40,19 @@ configure do
 end
 
 get '/' do
-  locals = { :date_error => false }
+  locals = {}
   
-  if (params['date'])
+  if (params['date'] && params['lat'] && params['lng'])
     begin
       date = Date.strptime params['date'], "%Y-%m-%d"
     rescue ArgumentError
       date = Date.today
-      locals[:date_error] = params['date']
     end
+    locals[:presets] = {:latitude => params['lat'], :longitude => params['lng'], :date => date}
   else
-    date = Date.today
+    locals[:presets] = {}
   end
-  
-  if (params['lat'] && params['lng'])
-    locals.merge!({:latitude => params['lat'], :longitude => params['lng'], :ok => true, :place => nil})
-  end
-  locals.merge!(calculate_solstice(locals[:latitude], date)) if locals[:ok]
-  locals[:date] = date
-  
+    
   erb :application, :locals => {:partial => :index, :partial_locals => locals}
 end
 

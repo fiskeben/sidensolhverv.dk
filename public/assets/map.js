@@ -7,8 +7,11 @@ var Map = (function ($) {
 	var
 		map, marker,
 
-		getDefaultPosition = function () {
-			 return new google.maps.LatLng(55.5, 9.5);
+		getDefaultPosition = function (preset) {
+			if (preset !== undefined) {
+				return preset;
+			}
+			return new google.maps.LatLng(55.5, 9.5);
 		},
 
 		getNameOfLocation = function (locationData, map) {
@@ -24,9 +27,9 @@ var Map = (function ($) {
 			return address.formatted_address;
 		},
 
-		updatePositionAndText = function (location) {
+		updatePositionAndText = function (location, date) {
 			var getLocationPromise = Position.getLocation(location),
-				getDataPromise = Server.getDataForLocation(location);
+				getDataPromise = Server.getDataForLocation(location, date);
       
       marker = addPositionToMap(location, map);
       map.setCenter(location);
@@ -59,7 +62,15 @@ var Map = (function ($) {
   		return aMarker;
 		},
 
-		initialize = function (canvas, options) {
+		getPresetPosition = function (presets) {
+			var location;
+			if (presets !== undefined) {
+				location = new google.maps.LatLng(presets.latitude, presets.longitude);
+			}
+			return location;
+		},
+
+		initialize = function (canvas, options, presets) {
 			updateStatus('Initialiserer kort');
 			var mapOptions = $.extend({
 				zoom: 4,
@@ -67,17 +78,22 @@ var Map = (function ($) {
 			}, options),
 				canvasObject = (typeof canvas === 'string')
 					? $(canvas).get(0)
-					: canvas;
+					: canvas,
+				presetPosition = getPresetPosition(presets);
 
-			mapOptions.center = getDefaultPosition();
+			mapOptions.center = getDefaultPosition(presetPosition);
 
 			map = new google.maps.Map(canvasObject, mapOptions);
 
 			google.maps.event.addListenerOnce(map, 'idle', function() {
-    		Position.getPosition(function (position) {
-    			var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-	    		updatePositionAndText(latLng);
-				});
+				if (presetPosition === undefined) {
+					Position.getPosition(function (position) {
+	    			var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		    		updatePositionAndText(latLng);
+					});
+				} else {
+					updatePositionAndText(presetPosition, presets.date);
+				}
 			});
 
 			google.maps.event.addListener(map, 'click', function (event) {
@@ -134,9 +150,12 @@ var Position = (function () {
 
 var Server = (function ($) {
 	var
-		getDataForLocation = function (location) {
+		getDataForLocation = function (location, date) {
 			updateStatus('Henter data fra serveren');
 			var payload = { lat: location.lat(), lng: location.lng() };
+			if (date !== undefined) {
+				payload.date = date;
+			}
       return $.ajax({
         url: "/api/v1/calculate",
         type: 'post',

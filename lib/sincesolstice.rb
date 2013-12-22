@@ -43,6 +43,10 @@ class SinceSolstice
     yesterdays_length = @calculator.calculate_length_of_day(@days_since_solstice - 1)
     todays_length - yesterdays_length
   end
+
+  def get_direction
+    (next_summer_solstice < next_winter_solstice) ? :increasing : :decreasing
+  end
   
   def get_next_solstice
     if next_summer_solstice < next_winter_solstice

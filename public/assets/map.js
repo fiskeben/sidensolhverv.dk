@@ -196,8 +196,8 @@ var Template = (function ($, Handlebars) {
 
 			templateData.date = DateModule.createDate(result.date.interpreted);
 			templateData.place = location;
-
-			templateData.verb = (result.difference > 0)
+console.log("duff", result.direction)
+			templateData.verb = (result.direction === 'increasing')
 				? 'tiltaget'
 				: 'aftaget';
 

@@ -30,6 +30,7 @@ def calculate_solstice(latitude, date)
   data[:hours] = sincesolstice.hours
   data[:minutes] = sincesolstice.minutes
   data[:difference] = sincesolstice.get_difference_since_yesterday
+  data[:direction] = sincesolstice.get_direction
   data[:length_in_hours] = sincesolstice.day_length.hours
   data[:length_in_minutes] = sincesolstice.day_length.minutes
   data
@@ -100,7 +101,8 @@ route :post, :get, '/api/v1/calculate' do
     :solstice => sincesolstice.solstice.strftime("%Y-%m-%d"),
     :hours => sincesolstice.hours,
     :minutes => sincesolstice.minutes,
-    :difference => sincesolstice.get_difference_since_yesterday
+    :difference => sincesolstice.get_difference_since_yesterday,
+    :direction => sincesolstice.get_direction
   }
   
   rescue => e

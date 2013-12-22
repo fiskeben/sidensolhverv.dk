@@ -231,6 +231,13 @@ var Template = (function ($, Handlebars) {
 		return result;
 	});
 
+	Handlebars.registerHelper('showMinutes', function (minutes, hours, options) {
+		if (minutes !== 0 || hours === 0) {
+			return options.fn(this);
+		}
+		return options.inverse(this);
+	});
+
 	return {
 		'update': update,
 		'error': error

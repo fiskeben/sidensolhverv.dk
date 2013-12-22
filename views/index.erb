@@ -1,15 +1,17 @@
 <script id="template" type="text/x-handlebars-template">
   <p class="lead">{{date}} er dagen i {{place}} {{verb}} med</p>
   
+  {{#if hours}}
   <h2>
-    {{#if hours}}{{hours}} {{plural hours 'time' 'r'}}{{/if}}
+    {{hours}} {{plural hours 'time' 'r'}}
     {{#if minutes}}
       <small>og</small>
     {{/if}}
   </h2>
-  {{#if minutes}}
-    <h2>{{minutes}} {{plural minutes 'minut' 'ter'}}</h2>
   {{/if}}
+  {{#showMinutes minutes hours}}
+    <h2>{{minutes}} {{plural minutes 'minut' 'ter'}}</h2>
+  {{/showMinutes}}
   
   <p class="lead">siden {{solstice}}</p>
   <small>Det er {{difference}} {{plural difference 'minut' 'ter'}} {{direction}} end i går.</small>

@@ -2,7 +2,6 @@
   <div class="span8 offset2">
     <h2>API</h2>
     <p>Med APIet kan du hente informationen som bruges her på siden og bruge i andre sammenhænge.</p>
-    <p>APIet bruger almindelige HTTP requests og virker pt med POST og GET. Bruger du POST skal input være JSON.</p>
     <p>Alle returnværdier er JSON.</p>
     
     <h3>Metoder</h3>
@@ -11,7 +10,7 @@
     <p>Denne metode kan fortælle, hvor meget dagen er tiltaget siden forrige solhverv.</p>
     
     <h5>Endpoint</h5>
-    <p><code>/api/v1/calculate</code></p>
+    <p><code><span class="method">GET</span> /api/v1/calculate</code></p>
     
     <h5>Input</h5>
     <p>Som minimum kræves der længde- og breddegrad. Du kan også angive en dato (<code>date</code>) på formatet <code>YYYY-MM-DD</code>, hvis du vil hente information om en specifik dato.</p>
@@ -19,7 +18,7 @@
     <ul>
       <li><code>lat</code>: breddegrad</li>
       <li><code>lng</code>: længdegrad</li>
-      <li><code>date</code>: dato (valgfri)</li>
+      <li><code>date</code>: dato (valgfri) på formatet <code>YYYY-MM-DD</code></li>
     </ul>
     
     <h5>Output</h5>
@@ -48,14 +47,14 @@
     <p>Returnerer dato for næste solhverv, det vil sige enten sommer- eller vintersolhverv.</p>
     
     <h5>Endpoint</h5>
-    <p><code>/api/v1/next-solstice</code></p>
+    <p><code><span class="method">GET</span> /api/v1/next-solstice</code></p>
     
     <h5>Input</h5>
     <p>Ingen.</p>
     
     <h5>Output</h5>
     <ul>
-      <li><code>next_solstice</code>: Dato for næste solhver på formen YYYY-MM-DD.</li>
+      <li><code>next_solstice</code>: Dato for næste solhverv på formen YYYY-MM-DD.</li>
     </ul>
     
     <hr>

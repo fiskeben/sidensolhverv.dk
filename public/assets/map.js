@@ -158,7 +158,7 @@ var Server = (function ($) {
 			}
       return $.ajax({
         url: "/api/v1/calculate",
-        type: 'post',
+        type: 'get',
         data: payload
       });
 		};

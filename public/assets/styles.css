@@ -11,6 +11,11 @@ body {
   max-width: 100%;
 }
 
+code .method {
+  color: #000;
+  font-weight: bold;
+}
+
 @media (max-width: 991px) {
   .social>div {
     display: inline;

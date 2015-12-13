@@ -1,0 +1,38 @@
+{
+  "name": "sidensolhverv.dk",
+  "version": "1.0.0",
+  "description": "sidensolhverv.dk",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "gulp build && thin start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiskeben/sidensolhverv.dk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fiskeben/sidensolhverv.dk/issues"
+  },
+  "homepage": "https://github.com/fiskeben/sidensolhverv.dk",
+  "dependencies": {
+    "google-maps": "^3.1.0",
+    "google-maps-api": "^2.0.0",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-share": "^1.4.0"
+  },
+  "devDependencies": {
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^12.0.1",
+    "gulp": "^3.9.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}

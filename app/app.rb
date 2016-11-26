@@ -13,7 +13,7 @@ class App < Sinatra::Application
   end
 
   get '/' do
-    locals = {}
+    locals = {:google_maps_api_key => settings.google_maps_api_key}
 
     if (params['date'] && params['lat'] && params['lng'])
       begin
@@ -26,7 +26,7 @@ class App < Sinatra::Application
       locals[:presets] = {}
     end
 
-    erb :application, :locals => {:partial => :index, :partial_locals => locals, :google_maps_api_key => settings.google_maps_api_key}
+    erb :application, :locals => {:partial => :index, :partial_locals => locals}
   end
 
   get '/api/?' do

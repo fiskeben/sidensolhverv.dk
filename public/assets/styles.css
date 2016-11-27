@@ -27,6 +27,9 @@ code .method {
     padding-top: 56.25%;
     height: 120px;
   }
+  #map_canvas > div {
+    position: static!important;
+  }
   /* Custom container */
   .container-narrow {
     margin: 0 auto;

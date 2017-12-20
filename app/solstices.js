@@ -29,16 +29,21 @@ module.exports.getPreviousWinterSolstice = (date) => {
 
 module.exports.getNextSolstice = (date) => {
     const timestamp = date.getTime();
-    return solstices.find((d) => {
-        const t = d.getTime();
-        return t > timestamp && t - timestamp < 15778463000;
-    });
+    for (let i = 0; i < solstices.length; i++) {
+        const candidate = solstices[i];
+        if (candidate.getTime() > timestamp) {
+            return candidate;
+        }
+    }
 }
 
 module.exports.getPreviousSolstice = (date) => {
     const timestamp = date.getTime();
-    return solstices.find((d) => {
-        const t = d.getTime();
-        return t < timestamp && timestamp - t < 15798463000;
-    });
+    const reversed = solstices.slice().reverse();
+    for (let i = 0; i < reversed.length; i++) {
+        const candidate = reversed[i];
+        if (candidate.getTime() < timestamp) {
+            return candidate;
+        }
+    }
 }

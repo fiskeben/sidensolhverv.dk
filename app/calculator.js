@@ -14,6 +14,7 @@ const calculateSync = (lat, lng, date) => {
     
     const previousWinterSolstice = getPreviousWinterSolstice(date);
     const solstice = getPreviousSolstice(date);
+    console.log('solstice', { solstice, date });
     const daysSinceSolstice = daysBetween(date, solstice);
     const daysSinceSolsticeYesterday = daysBetween(date_yesterday, solstice);
     const lengthOfDay = dayLength(lat, daysSinceSolstice);

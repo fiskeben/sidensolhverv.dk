@@ -1,0 +1,17 @@
+.debugger {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+}
+
+.debugger > div {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.debugger button {
+    flex: 1;
+}

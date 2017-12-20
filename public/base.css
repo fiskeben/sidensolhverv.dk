@@ -1,0 +1,127 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+html {
+    height: 100%;
+}
+body {
+    font-family: '-apple-system','HelveticaNeue', 'Verdana', sans-serif;
+    font-size: 16px;
+    font-weight: 100;
+}
+#app {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+.main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+}
+.map-element {
+    height: 100%;
+}
+.map-container {
+    margin-left: 0;
+}
+.sheet {
+    border: 1px solid #888;
+    background-color: #EBF2FA;
+    color: #333;
+}
+.sheet h1 {
+    margin: 0;
+    padding: 1em;
+    background-color: #718F94;
+    color: #EBF2FA;
+    font-weight: 200;
+}
+.sheet > div {
+    margin: 0;
+    padding: 1em;
+    color: #333;
+}
+.times {
+    text-align: center;
+}
+.hours, .minutes {
+    font-weight: 600;
+}
+.binder {
+    margin-right: .5rem;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.9);
+}
+.cookie-warning {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1em;
+    margin: 0;
+    padding: 1em;
+    background-color: #8FB8DE; 
+    color: #fff;
+}
+
+.cookie-warning p {
+    margin: 0;
+    font-size: .8em;
+    font-weight: 100;
+}
+
+.cookie-warning button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 20%;
+    background-color: #9A94BC;
+    color: #fff;
+    border: none;
+    text-transform: uppercase;
+    font-size: 1em;
+}
+
+.dialog {
+    position: relative;
+    width: 80%;
+    top: 30%;
+    margin: auto;
+    padding: 1em;
+    background-color: #EBF2FA;
+    border: 1px solid #888;
+    border-radius: 20px;
+}
+
+.dialog input {
+    width: 100%;
+    padding: .25em;
+    font-size: 1.4em;
+    background-color: #fafafa;
+    box-sizing: border-box;
+    margin: 1em 0;
+}
+
+.right-align-button {
+    text-align: right;
+}
+
+.dialog button {
+    font-size: 1.4em;
+    padding: .3em 1em;
+    right: 0;
+}

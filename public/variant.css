@@ -1,0 +1,323 @@
+
+@media only screen and (orientation: landscape) {
+    .main {
+        flex-flow: row nowrap;
+        flex-direction: row;
+    }
+    .map-container {
+        height: 100%;
+        width: 50%;
+    }
+    .sheet {
+        height: 100%;
+        width: 50%;
+        flex: 1;
+    }
+    .sheet > div {
+        margin-top: 1.6rem;
+    }
+
+    @media only screen and (min-width: 320px) {
+
+        /* Small screen, non-retina */
+        body {
+            font-weight: 300;
+        }
+        .sheet h1 {
+            font-size: 1.2em;
+        }
+        .sheet {
+            font-size: .9em;
+        }
+        .times {
+            font-size: 1em;
+        }
+
+    }
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 320px),
+    only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 320px),
+    only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 320px),
+    only screen and (        min-device-pixel-ratio: 2)      and (min-width: 320px),
+    only screen and (                min-resolution: 192dpi) and (min-width: 320px),
+    only screen and (                min-resolution: 2dppx)  and (min-width: 320px) { 
+
+        /* Small screen, retina, stuff to override above media query */
+        body {
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .sheet h1 {
+            font-size: 1.2em;
+        }
+        .sheet {
+            font-size: .9em;
+        }
+        .times {
+            font-size: 1em;
+        }
+
+    }
+
+    @media only screen and (min-width: 700px) {
+
+        /* Medium screen, non-retina */
+        body {
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .sheet h1 {
+            font-size: 1.2em;
+        }
+        .sheet {
+            font-size: .9em;
+        }
+        .times {
+            font-size: 1em;
+        }
+
+    }
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 700px),
+    only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 700px),
+    only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 700px),
+    only screen and (        min-device-pixel-ratio: 2)      and (min-width: 700px),
+    only screen and (                min-resolution: 192dpi) and (min-width: 700px),
+    only screen and (                min-resolution: 2dppx)  and (min-width: 700px) { 
+
+        /* Medium screen, retina, stuff to override above media query */
+        body {
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .sheet h1 {
+            font-size: 1.2em;
+        }
+        .sheet {
+            font-size: 1em;
+        }
+        .sheet > div {
+            padding-top: 0;
+        }
+        .times {
+            font-size: 1.1em;
+        }
+        .hours, .minutes {
+            font-size: 1.3em;
+        }
+        .binder {
+            font-size: .8em;
+        }
+    }
+
+    @media only screen and (min-width: 1300px) {
+
+        /* Large screen, non-retina */
+        body {
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .sheet h1 {
+            font-size: 1.2em;
+        }
+        .sheet {
+            font-size: .9em;
+        }
+        .times {
+            font-size: 1em;
+        }
+        .hours, .minutes {
+            font-size: 1.2em;
+        }
+    }
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1300px),
+    only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
+    only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
+    only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),
+    only screen and (                min-resolution: 191dpi) and (min-width: 1300px),
+    only screen and (                min-resolution: 2dppx)  and (min-width: 1300px) { 
+
+        /* MacBook retina */
+        body {
+            font-size: 26px;
+            font-weight: 100;
+        }
+        .sheet h1 {
+            font-size: 1.6em;
+        }
+        .sheet {
+            font-size: 1em;
+        }
+        .times {
+            font-size: 1.4em;
+        }
+        .hours, .minutes {
+            font-size: 1.6em;
+        }
+        .binder {
+            font-size: .6em;
+        }
+    }
+}
+
+@media only screen and (orientation: portrait) {
+    .main {
+        flex-flow: column nowrap;
+        flex-direction: column;
+    }
+    .map-container {
+        height: 50%;
+        width: 100%;
+    }
+    .sheet {
+        height: 50%;
+        width: 100%;
+        flex: 1;
+        overflow: scroll;
+    }
+    .sheet br {
+        display: none;
+    }
+
+    @media only screen and (min-width: 320px) {
+
+        /* Small screen, non-retina */
+        body {
+            font-weight: 300;
+        }
+        .sheet h1 {
+            font-size: 1.2em;
+        }
+        .sheet {
+            font-size: .9em;
+        }
+        .times {
+            font-size: 1em;
+        }
+        .hours, .minutes {
+            font-weight: 600;
+            font-size: 1.4em;
+        }
+    }
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 320px),
+    only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 320px),
+    only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 320px),
+    only screen and (        min-device-pixel-ratio: 2)      and (min-width: 320px),
+    only screen and (                min-resolution: 192dpi) and (min-width: 320px),
+    only screen and (                min-resolution: 2dppx)  and (min-width: 320px) { 
+
+        /* Small screen, retina, stuff to override above media query */
+        body {
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .sheet h1 {
+            font-size: 1.2em;
+        }
+        .sheet {
+            font-size: .9em;
+        }
+        .times {
+            font-size: 1em;
+        }
+
+    }
+
+    @media only screen and (min-width: 700px) {
+
+        /* Medium screen, non-retina */
+        body {
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .sheet h1 {
+            font-size: 1.2em;
+        }
+        .sheet {
+            font-size: .9em;
+        }
+        .times {
+            font-size: 1em;
+        }
+    }
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 700px),
+    only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 700px),
+    only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 700px),
+    only screen and (        min-device-pixel-ratio: 2)      and (min-width: 700px),
+    only screen and (                min-resolution: 192dpi) and (min-width: 700px),
+    only screen and (                min-resolution: 2dppx)  and (min-width: 700px) { 
+
+        /* Medium screen, retina, stuff to override above media query */
+        body {
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .sheet h1 {
+            font-size: 1.2em;
+        }
+        .sheet {
+            font-size: .9em;
+        }
+        .times {
+            font-size: 1em;
+        }
+    }
+
+    @media only screen and (min-width: 1300px) {
+
+        /* Large screen, non-retina */
+        body {
+            font-size: 20px;
+        }
+        .sheet h1 {
+            font-size: 1.2em;
+        }
+        .sheet {
+            font-size: .9em;
+        }
+        .times {
+            font-size: 1em;
+        }
+        .binder {
+            font-size: .8em;
+        }
+    }
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1300px),
+    only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
+    only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
+    only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),
+    only screen and (                min-resolution: 191dpi) and (min-width: 1300px),
+    only screen and (                min-resolution: 2dppx)  and (min-width: 1300px) { 
+
+        /* Large screen, retina, stuff to override above media query */
+        body {
+            font-size: 26px;
+            font-weight: 100;
+        }
+        .sheet h1 {
+            font-size: 1.6em;
+        }
+        .sheet {
+            font-size: 1em;
+        }
+        .times {
+            font-size: 1.4em;
+        }
+        .hours, .minutes {
+            font-size: 1.6em;
+        }
+        .binder {
+            font-size: .6em;
+        }
+    }
+}

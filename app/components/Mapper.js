@@ -6,7 +6,7 @@ import {withScriptjs, withGoogleMap} from 'react-google-maps';
 export default compose(
     withProps(
         {
-            googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
+            googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDPfxNISauCJtPqJym_vbdZzoX7MtgjoWU",
             loadingElement: <div className='loading' />,
             containerElement: <div className='map-container' />,
             mapElement: <div className='map-element' />

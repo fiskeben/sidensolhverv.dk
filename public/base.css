@@ -135,7 +135,7 @@ body {
     margin-right: 1em;
 }
 
-.locate-button {
+.action-button {
     display: flex;
     flex-direction: row;
     padding: 0;
@@ -143,8 +143,7 @@ body {
     border-radius: 5px;
 }
 
-.locate-symbol {
-    background-image: url('locate.png');
+.action-symbol {
     background-size: 25px;
     background-position: 0% 0%;
     background-color: #A0CFD3;
@@ -154,9 +153,17 @@ body {
     height: 35px;
 }
 
-.locate-text {
+.action-text {
     color: #2E2F2F;
     font-weight: 600;
     font-size: 2em;
     margin: auto 1em;
+}
+
+.action-button .locate {
+    background-image: url('locate.png');
+}
+
+.action-button .share {
+    background-image: url('share.png');
 }

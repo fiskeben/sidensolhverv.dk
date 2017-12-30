@@ -12,9 +12,9 @@ export default class LocateButton extends React.Component {
 
     render() {
         return <div>
-            <button onClick={this.onClick} className='locate-button'>
-                <div className='locate-symbol'></div>
-                <div className='locate-text'>Find mig</div>
+            <button onClick={this.onClick} className='action-button'>
+                <div className='action-symbol locate'></div>
+                <div className='action-text'>Find mig</div>
             </button>
         </div>
     }

@@ -161,9 +161,9 @@ body {
 }
 
 .action-button .locate {
-    background-image: url('img/locate.png');
+    background-image: url('../img/locate.png');
 }
 
 .action-button .share {
-    background-image: url('img/share.png');
+    background-image: url('../img/share.png');
 }

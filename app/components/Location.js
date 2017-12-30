@@ -1,6 +1,5 @@
 import React from 'react';
 import { INCREASING, DECREASING } from '../calculator';
-import dateformatter from '../dateformatter';
 
 export default class Location extends React.Component {
     render() {
@@ -9,8 +8,7 @@ export default class Location extends React.Component {
         if (this.props.locationName !== undefined) {
             locationDesc = `i ${this.props.locationName}`
         }
-        const date = dateformatter.format(this.props.date);
 
-        return <p>{date} er dagen {locationDesc} {direction} med</p>
+        return <p>er dagen {locationDesc} {direction} med</p>
     }
 }

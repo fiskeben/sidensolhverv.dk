@@ -4,18 +4,20 @@ import TimeSheet from './TimeSheet';
 import Difference from './Difference';
 import SharableLink from './SharableLink';
 import LocateButton from './LocateButton';
+import dateformatter from '../dateformatter';
 
 export default class Sheet extends React.Component {
     render() {
         let classnames = 'sheet';
         let components;
+        const date = (this.props.date) ? dateformatter.format(this.props.date) : 'Hvor meget er dagen tiltaget?';
 
         if (!this.props.showHelpText) {
             components = <div>
-                <Location date={this.props.date} direction={this.props.direction} locationName={this.props.locationName} />
-                <TimeSheet hours={this.props.hours} minutes={this.props.minutes} />    
+                <Location direction={this.props.direction} locationName={this.props.locationName} />
+                <TimeSheet hours={this.props.hours} minutes={this.props.minutes} />
                 <Difference difference={this.props.difference} direction={this.props.direction} />
-                <div className='actions'>  
+                <div className='actions'>
                     <SharableLink date={this.props.date} lat={this.props.coords.lat} lng={this.props.coords.lng} />
                     <LocateButton locate={this.props.locate}/>
                 </div>
@@ -30,7 +32,7 @@ export default class Sheet extends React.Component {
         
         return (
             <div id='sheet' className={classnames}>
-                <h1>Hvor meget er dagen tiltaget?</h1>
+                <h1>{date}</h1>
                 {components}
             </div>
         );

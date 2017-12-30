@@ -12,6 +12,7 @@ export default class Main extends React.Component {
         super(props);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.changeDate = this.changeDate.bind(this);
+        this.locate = this.locate.bind(this);
 
         const defaultCoords = { lat: 56.15176494755459, lng: 10.208444595336914 };
         let date = new Date();
@@ -36,6 +37,25 @@ export default class Main extends React.Component {
         };
     }
 
+    locate() {
+        this.setState(Object.assign({}, this.state, { showHelpText: true, loading: true }));
+            
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const detectedCoords = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
+                localStorage.setItem('coords', JSON.stringify(detectedCoords));
+                this.handleUpdate(detectedCoords);
+            },
+            (err) => {
+                console.error('got error', err);
+                if (err.code !== 3) {
+                    localStorage.setItem('geolocationdisabled', 'yes');
+                }
+                this.setState(Object.assign({}, this.state, { showHelpText: true, loading: false }));
+            }
+        );
+    }
+
     componentDidMount() {
         let coords = localStorage.getItem('coords');
         if (coords != undefined) {
@@ -47,22 +67,7 @@ export default class Main extends React.Component {
         if (geolocationDisabled) {
             this.setState(Object.assign({}, this.state, { showHelpText: true, loading: false }));
         } else {
-            this.setState(Object.assign({}, this.state, { showHelpText: true, loading: true }));
-            
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    const detectedCoords = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
-                    localStorage.setItem('coords', JSON.stringify(detectedCoords));
-                    this.handleUpdate(detectedCoords);
-                },
-                (err) => {
-                    console.error('got error', err);
-                    if (err.code !== 3) {
-                        localStorage.setItem('geolocationdisabled', 'yes');
-                    }
-                    this.setState(Object.assign({}, this.state, { showHelpText: true, loading: false }));
-                }
-            );
+          this.locate();  
         }
     }
 
@@ -130,6 +135,7 @@ export default class Main extends React.Component {
             direction={data.direction}
             solstice={data.solstice}
             coords={this.state.coords}
+            locate={this.locate}
         />;
         
         return (

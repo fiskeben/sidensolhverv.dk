@@ -125,3 +125,38 @@ body {
     padding: .3em 1em;
     right: 0;
 }
+
+.actions {
+    display: flex;
+    flex-direction: row;
+}
+
+.actions > div {
+    margin-right: 1em;
+}
+
+.locate-button {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    background-color: #E0F2E9;
+    border-radius: 5px;
+}
+
+.locate-symbol {
+    background-image: url('locate.png');
+    background-size: 25px;
+    background-position: 0% 0%;
+    background-color: #A0CFD3;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    width: 35px;
+    height: 35px;
+}
+
+.locate-text {
+    color: #2E2F2F;
+    font-weight: 600;
+    font-size: 2em;
+    margin: auto 1em;
+}

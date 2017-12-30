@@ -9,6 +9,7 @@
   "scripts": {
     "test": "node_modules/mocha/bin/mocha test/**/*-test.js",
     "build": "webpack",
+    "watch": "webpack -w",
     "deploy": "webpack --optimize-minimize"
   },
   "repository": {

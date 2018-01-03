@@ -10,8 +10,9 @@
     "test": "node_modules/mocha/bin/mocha test/**/*-test.js",
     "clean": "rm -rf public/*",
     "build": "webpack",
+    "build-prod": "webpack --optimize-minimize && sed -i'' s/__version__/$(git describe --always)/g public/index.html",
     "watch": "webpack -w",
-    "deploy": "webpack --optimize-minimize && sed -i'' s/__version__/$(git describe --always)/g public/index.html"
+    "deploy": "webpack --optimize-minimize && sed -i'' s/__version__/$(git describe --always)/g public/index.html && rsync -rh public/* digital-ocean:/opt/sites/sidensolhverv/"
   },
   "repository": {
     "type": "git",

@@ -22,7 +22,7 @@ export default class Map extends React.Component {
         console.log('render map', this.state);
         return (
             <GoogleMap
-                defaultZoom={8}
+                defaultZoom={11}
                 defaultCenter={this.state.coords}
                 center={this.state.coords}
                 onClick={this.handleMapClick}>

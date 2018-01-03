@@ -9,7 +9,8 @@ const calculate = (lat, lng, date) => {
     return Promise.resolve(calculateSync(lat, lng, date));
 }
 
-const calculateSync = (lat, lng, date) => {
+const calculateSync = (lat, lng, now) => {
+    const date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0, 0);
     const date_yesterday = yesterday(date);
     
     const previousWinterSolstice = getPreviousWinterSolstice(date);

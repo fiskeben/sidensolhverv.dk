@@ -43,6 +43,6 @@
     "copy-webpack-plugin": "^4.6.0",
     "mocha": "^4.1.0",
     "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.12"
   }
 }
